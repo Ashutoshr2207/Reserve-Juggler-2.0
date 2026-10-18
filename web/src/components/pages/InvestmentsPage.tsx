@@ -5,6 +5,7 @@ import { DecisionCard, productName } from '../common/DecisionCard';
 import { Heading } from '../common/Heading';
 import { RiskBadge } from '../common/RiskBadge';
 import { TermReturns } from '../charts/TermReturns';
+import SpecularButton from './SpecularButton';
 
 export const InvestmentsPage: React.FC = () => {
   const { state, mutate, showToast, openInvestModal, busy } = useTreasury();
@@ -40,7 +41,15 @@ export const InvestmentsPage: React.FC = () => {
       <div className="panel-content best-option">
         <div><strong>{best.suggested > 0 ? 'Highest net return: ' + productName(best) : 'No product is eligible right now'}</strong>
           <p className="muted">{best.suggested > 0 ? money(best.suggested) + ' principal · ' + money(best.net_return, 2) + ' expected net return' : best.reason}</p></div>
-        <button className="btn" disabled={busy || best.suggested <= 0} onClick={() => openInvestModal(true)}>Review optimized sweep</button>
+        <SpecularButton
+          size="md"
+          variant="primary"
+          radius={18}
+          disabled={busy || best.suggested <= 0}
+          onClick={() => openInvestModal(true)}
+        >
+          Review optimized sweep
+        </SpecularButton>
       </div>
     </section>
     <DecisionCard showCompare={false} />
@@ -56,7 +65,17 @@ export const InvestmentsPage: React.FC = () => {
         <div className="form-section"><h3>Illustrative annual rates</h3><div className="form-grid">
           {p.options.map(o => <div className="form-field" key={o.id}><label htmlFor={'rate-' + o.id}>{productName(o)} · %</label><input id={'rate-' + o.id} type="number" min="0" max="20" step="0.01" value={rates[o.id] ?? o.rate} required onChange={e => setRates(prev => ({ ...prev, [o.id]: Number(e.target.value) }))} /></div>)}
         </div></div>
-        <div className="form-actions"><button className="btn" type="submit" disabled={busy}>Save & recalculate</button></div>
+        <div className="form-actions">
+          <SpecularButton
+            type="submit"
+            size="md"
+            variant="primary"
+            radius={18}
+            disabled={busy}
+          >
+            Save & recalculate
+          </SpecularButton>
+        </div>
       </form>
     </details>
     <details className="panel model-details"><summary>How products are compared</summary><div className="panel-content">

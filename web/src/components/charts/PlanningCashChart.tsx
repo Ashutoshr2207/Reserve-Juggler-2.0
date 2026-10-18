@@ -61,11 +61,11 @@ export const PlanningCashChart: React.FC<{ state: TreasuryState }> = ({ state })
         <div className="readout-values"><div><span>Before investment</span><strong>{compact(point.balance)}</strong></div><div className="violet"><span>After selected investment</span><strong>{compact(projected[active])}</strong></div></div>
       </div>
       <svg className="plan-chart" viewBox="0 0 900 298" role="img" tabIndex={0}
-        aria-label="Time-ordered liquidity chart. Blue before investment, violet after the selected investment, amber protected floor. Use arrow keys for each cash movement, Home or End for first or last."
+        aria-label="Time-ordered liquidity chart. Blue before investment, light blue after the selected investment, black protected floor. Use arrow keys for each cash movement, Home or End for first or last."
         onPointerMove={inspect} onKeyDown={keyboard}>
         <defs>
-          <linearGradient id={id + '-cash'} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#5a9fe0" stopOpacity=".17" /><stop offset="1" stopColor="#5a9fe0" stopOpacity=".01" /></linearGradient>
-          <pattern id={id + '-risk'} width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" x2="0" y1="0" y2="7" stroke="#e5b380" strokeWidth="1" /></pattern>
+          <linearGradient id={id + '-cash'} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#3B82F6" stopOpacity=".18" /><stop offset="1" stopColor="#3B82F6" stopOpacity=".01" /></linearGradient>
+          <pattern id={id + '-risk'} width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" x2="0" y1="0" y2="7" stroke="#94A3B8" strokeWidth="1" /></pattern>
           <clipPath id={id + '-plot'}><rect x={left} y={top} width={right - left} height={bottom - top} /></clipPath>
         </defs>
         {[0,1,2,3,4].map(i => {
@@ -73,18 +73,18 @@ export const PlanningCashChart: React.FC<{ state: TreasuryState }> = ({ state })
           return <g key={i}><line x1={left} x2={right} y1={y(v)} y2={y(v)} stroke="#e9eff6" /><text x={left - 10} y={y(v) + 3} textAnchor="end">{compact(v)}</text></g>;
         })}
         <g clipPath={'url(#' + id + '-plot)'}>
-          <rect x={left} y={y(p.floor)} width={right - left} height={Math.max(0, bottom - y(p.floor))} fill={'url(#' + id + '-risk)'} opacity=".55" />
-          <rect x={left} y={top} width={Math.min(right - left, c.hours / 72 * (right - left))} height={bottom - top} fill="#9976d3" opacity=".035" />
+          <rect x={left} y={y(p.floor)} width={right - left} height={Math.max(0, bottom - y(p.floor))} fill={'url(#' + id + '-risk)'} opacity=".4" />
+          <rect x={left} y={top} width={Math.min(right - left, c.hours / 72 * (right - left))} height={bottom - top} fill="#3B82F6" opacity=".06" />
           {before && <path d={area} fill={'url(#' + id + '-cash)'} />}
-          {after && <path d={line(projected)} fill="none" stroke="#9778d5" strokeWidth="1.8" strokeLinejoin="round" />}
-          {before && <path d={baselinePath} fill="none" stroke="#2470cb" strokeWidth="2" strokeLinejoin="round" />}
-          <line x1={left} x2={right} y1={y(p.floor)} y2={y(p.floor)} stroke="#bc9356" strokeDasharray="5 4" />
+          {after && <path d={line(projected)} fill="none" stroke="#60A5FA" strokeWidth="2" strokeLinejoin="round" />}
+          {before && <path d={baselinePath} fill="none" stroke="#18478D" strokeWidth="2.2" strokeLinejoin="round" />}
+          <line x1={left} x2={right} y1={y(p.floor)} y2={y(p.floor)} stroke="#0A192F" strokeDasharray="5 4" />
           <line className="cursor-line" x1={x(point.timestamp)} x2={x(point.timestamp)} y1={top} y2={bottom} />
           {before && <circle className="active-point" cx={x(point.timestamp)} cy={y(point.balance)} r="4" />}
           {after && <circle className="active-point violet" cx={x(point.timestamp)} cy={y(projected[active])} r="4" />}
         </g>
         <text className="chart-floor-label" x={right - 3} y={y(p.floor) - 5} textAnchor="end">Protected floor {compact(p.floor)}</text>
-        <rect x={left} y="11" width={Math.min(right - left, c.hours / 72 * (right - left))} height="4" rx="2" fill="#c5b6e7" />
+        <rect x={left} y="11" width={Math.min(right - left, c.hours / 72 * (right - left))} height="4" rx="2" fill="#93C5FD" />
         <text x={left} y="8">Selected lock: {c.hours}h</text>
         {[0,6,24,48,72].map(h => <text key={h} x={left + h / 72 * (right - left)} y="285" textAnchor="middle">+{h}h</text>)}
       </svg>

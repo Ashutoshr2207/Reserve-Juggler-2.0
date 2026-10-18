@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTreasury } from '../../hooks/useTreasury';
 import type { Policy } from '../../types/treasury';
 import { Heading } from '../common/Heading';
+import SpecularButton from './SpecularButton';
 
 export const PolicyPage: React.FC = () => {
   const { state, mutate, showToast, openResetModal, busy } = useTreasury();
@@ -33,7 +34,18 @@ export const PolicyPage: React.FC = () => {
             <div className="form-field"><label htmlFor="annual_yield">Assumed annual yield · %</label><input id="annual_yield" type="number" min="0" max="20" step="0.01" value={policy.annual_yield} required onChange={e => update('annual_yield', Number(e.target.value))} /></div>
           </div>
         </details>
-        <div className="form-actions"><button className="btn" type="submit" disabled={busy}>Save policy</button><span className="muted">Existing investments retain their agreed terms.</span></div>
+        <div className="form-actions">
+          <SpecularButton
+            type="submit"
+            size="md"
+            variant="primary"
+            radius={12}
+            disabled={busy}
+          >
+            Save policy
+          </SpecularButton>
+          <span className="muted">Existing investments retain their agreed terms.</span>
+        </div>
       </form>
     </section>
     <details className="panel model-details settings-layout"><summary>How the reserve is calculated</summary><div className="panel-content">
@@ -42,7 +54,18 @@ export const PolicyPage: React.FC = () => {
     </div></details>
     <details className="panel model-details danger-section settings-layout"><summary>Reset workspace</summary><div className="panel-content">
       <p>Reset removes imported data, policy changes, balances and history from this simulation. A confirmation is required.</p>
-      <div className="form-actions"><button className="btn danger" type="button" disabled={busy} onClick={openResetModal}>Reset sandbox</button></div>
+      <div className="form-actions">
+        <SpecularButton
+          type="button"
+          size="md"
+          variant="danger"
+          radius={12}
+          disabled={busy}
+          onClick={openResetModal}
+        >
+          Reset sandbox
+        </SpecularButton>
+      </div>
     </div></details>
   </>;
 };

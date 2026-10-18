@@ -3,7 +3,10 @@
    Institutional Indian Banking Treasury Intelligence
    ========================================================================== */
 
-:root {
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
   /* Primary Navy Palette */
   --navy-950: #040913;
   --navy-900: #0A192F;
@@ -17,9 +20,22 @@
   --black: #000000;
   --black-subtle: #020617;
   --white: #FFFFFF;
+  --text-white: #FFFFFF;
   --off-white: #F8FAFC;
   --surface: #FFFFFF;
   --surface-alt: #F1F5F9;
+
+  /* Semantic Tokens */
+  --bg-page: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-alt: #F1F5F9;
+  --bg-card: #FFFFFF;
+  --text-primary: #0A192F;
+  --text-secondary: #64748B;
+  --text-muted: #64748B;
+  --text-on-primary: #FFFFFF;
+  --border-default: #E2E8F0;
+  --border-subtle: #F1F5F9;
 
   /* Navy Blue Theme System */
   --blue: #18478d;
@@ -45,16 +61,16 @@
   --line-subtle: #F1F5F9;
   --line-dark: #1E293B;
 
-  /* Status Colors */
-  --green: #059669;
-  --green-bg: #ECFDF5;
-  --green-border: #A7F3D0;
-  --amber: #D97706;
-  --amber-bg: #FFFBEB;
-  --amber-border: #FDE68A;
-  --red: #DC2626;
-  --red-bg: #FEF2F2;
-  --red-border: #FECACA;
+  /* Status Colors (Black, White & Blue system) */
+  --green: #1D4ED8;
+  --green-bg: #EFF6FF;
+  --green-border: #BFDBFE;
+  --amber: #0F172A;
+  --amber-bg: #F1F5F9;
+  --amber-border: #CBD5E1;
+  --red: #1E3A8A;
+  --red-bg: #E8EEF8;
+  --red-border: #93C5FD;
 
   /* Shadows & Radius */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -72,6 +88,119 @@
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Primary Palette */
+  --navy-950: #040812;
+  --navy-900: #0B1220;
+  --navy-850: #0F1A2D;
+  --navy-800: #142238;
+  --navy-700: #1D3150;
+  --navy-600: #29446E;
+  --navy: #F1F5FB;
+
+  /* Surfaces */
+  --black: #000000;
+  --black-subtle: #040913;
+  --white: #FFFFFF;
+  --text-white: #FFFFFF;
+  --off-white: #0B1220;
+  --surface: #111C2E;
+  --surface-alt: #18263B;
+
+  /* Semantic Tokens */
+  --bg-page: #0B1220;
+  --bg-surface: #111C2E;
+  --bg-surface-alt: #18263B;
+  --bg-card: #111C2E;
+  --text-primary: #F1F5FB;
+  --text-secondary: #94A3B8;
+  --text-muted: #94A3B8;
+  --text-on-primary: #FFFFFF;
+  --border-default: #24344D;
+  --border-subtle: #19273D;
+
+  /* Navy Blue Theme System */
+  --blue: #3B82F6;
+  --blue-hover: #60A5FA;
+  --blue-active: #2563EB;
+  --blue-border: #3B82F6;
+  --blue-focus: #60A5FA;
+  --blue-icon: #82AAFF;
+  --blue-light: #162438;
+  --sidebar-bg: #070D18;
+  --blue-glow: rgba(59, 130, 246, 0.25);
+  --blue-shadow: rgba(0, 0, 0, 0.6);
+  --blue-area: rgba(59, 130, 246, 0.15);
+  --blue-area-hover: rgba(59, 130, 246, 0.25);
+  --blue-area-legend: rgba(59, 130, 246, 0.35);
+
+  /* Typography Colors */
+  --ink: #F1F5FB;
+  --ink-heading: #FFFFFF;
+  --muted: #94A3B8;
+  --muted-dark: #CBD5E1;
+  --line: #24344D;
+  --line-subtle: #19273D;
+  --line-dark: #334666;
+
+  /* Status Colors (Black, White & Blue system) */
+  --green: #60A5FA;
+  --green-bg: rgba(59, 130, 246, 0.2);
+  --green-border: #1E40AF;
+  --amber: #F1F5FB;
+  --amber-bg: rgba(255, 255, 255, 0.08);
+  --amber-border: #334155;
+  --red: #93C5FD;
+  --red-bg: rgba(30, 58, 138, 0.35);
+  --red-border: #3B82F6;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --shadow-navy: 0 8px 24px rgba(0, 0, 0, 0.7);
+
+  /* Typography Stack */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink);
+  background: var(--off-white);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body,
+.landing,
+.glass-pill-nav,
+.premise-card,
+.timeline-card,
+.landing-footer,
+.workspace,
+.workspace .panel,
+.workspace .metric,
+.workspace .topbar,
+.workspace .sidebar,
+.workspace input,
+.workspace select,
+.workspace td,
+.workspace th,
+dialog#dialog {
+  transition: background-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
 }
 
 * {
@@ -213,7 +342,7 @@ svg {
 }
 
 .btn.secondary {
-  background: var(--white);
+  background: var(--surface);
   color: var(--navy);
   border: 1px solid var(--line);
   font-weight: 600;
@@ -221,8 +350,8 @@ svg {
 
 .btn.secondary:hover:not(:disabled) {
   background: var(--surface-alt);
-  border-color: #CBD5E1;
-  color: var(--black);
+  border-color: var(--line-dark);
+  color: var(--ink);
 }
 
 .btn.ghost {
@@ -245,7 +374,7 @@ svg {
 
 .btn.danger {
   color: var(--red);
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--red-border);
 }
 
@@ -466,8 +595,8 @@ svg {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #10B981;
-  box-shadow: 0 0 8px #10B981;
+  background: #3B82F6;
+  box-shadow: 0 0 8px #3B82F6;
 }
 
 .status-currency {
@@ -594,8 +723,8 @@ svg {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #10B981;
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+  background: #3B82F6;
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.6);
   flex-shrink: 0;
 }
 
@@ -692,7 +821,7 @@ svg {
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
-  background: var(--white);
+  background: var(--surface);
   border-bottom: 1px solid var(--line);
   position: sticky;
   top: 0;
@@ -744,8 +873,8 @@ svg {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #10B981;
-  box-shadow: 0 0 6px #10B981;
+  background: #3B82F6;
+  box-shadow: 0 0 6px #3B82F6;
 }
 
 .topbar-date {
@@ -854,7 +983,7 @@ svg {
 .metrics {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
@@ -951,7 +1080,7 @@ svg {
 }
 
 .panel {
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
@@ -988,8 +1117,8 @@ svg {
    Decision Panel (Sleek Navy Command Card)
    ========================================================================== */
 .decision {
-  background: var(--navy);
-  color: var(--white);
+  background: var(--navy-900);
+  color: #FFFFFF;
   border: 1px solid var(--navy-850);
   box-shadow: var(--shadow-navy);
   display: flex;
@@ -1012,7 +1141,7 @@ svg {
   font-size: 38px;
   font-weight: 800;
   letter-spacing: -0.04em;
-  color: var(--white);
+  color: #FFFFFF;
   margin: 16px 0 8px;
   font-variant-numeric: tabular-nums;
 }
@@ -1041,14 +1170,14 @@ svg {
 }
 
 .decision-breakdown strong {
-  color: var(--white);
+  color: #FFFFFF;
   font-weight: 600;
 }
 
 .decision .btn {
   width: 100%;
   background: var(--blue);
-  color: var(--white);
+  color: #FFFFFF;
   border: 1px solid var(--blue-border);
   font-weight: 700;
   min-height: 44px;
@@ -1258,7 +1387,7 @@ svg {
 }
 
 .segmented button.selected {
-  background: var(--white);
+  background: var(--surface);
   color: var(--navy);
   box-shadow: var(--shadow-sm);
 }
@@ -1495,7 +1624,7 @@ tbody tr:hover {
   border-radius: var(--radius-sm);
   padding: 8px 12px;
   font-size: 12px;
-  background: var(--white);
+  background: var(--surface);
   color: var(--ink);
 }
 
@@ -1552,7 +1681,7 @@ tbody tr:hover {
   border-radius: var(--radius-sm);
   padding: 10px 14px;
   color: var(--ink);
-  background: var(--white);
+  background: var(--surface);
   width: 100%;
   font-size: 13px;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
@@ -1594,7 +1723,7 @@ tbody tr:hover {
 }
 
 .explainer {
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 24px;
@@ -1645,7 +1774,7 @@ tbody tr:hover {
 }
 
 .scenario-metrics>div {
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--line);
   padding: 18px 20px;
   border-radius: var(--radius-sm);
@@ -1759,7 +1888,7 @@ tbody tr:hover {
    ========================================================================== */
 dialog {
   width: min(500px, calc(100% - 32px));
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   padding: 30px;
@@ -2220,7 +2349,7 @@ dialog .dialog-actions {
 .buffer-card {
   top: 215px;
   left: calc(50% - 90px);
-  background: var(--white);
+  background: var(--surface);
   color: var(--navy);
   border: 1px solid var(--line);
   transform: rotateX(15deg) rotateY(-10deg) rotateZ(-3deg);
@@ -2299,7 +2428,7 @@ dialog .dialog-actions {
 }
 
 .premise-card {
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 30px 32px;
@@ -2545,7 +2674,7 @@ dialog .dialog-actions {
 .timeline-card {
   width: 100%;
   max-width: 470px;
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 30px 32px;
@@ -2813,7 +2942,7 @@ dialog .dialog-actions {
   justify-content: space-between;
   font-size: 11.5px;
   color: var(--muted);
-  background: var(--white);
+  background: var(--surface);
   box-sizing: border-box;
 }
 
@@ -3180,3 +3309,150 @@ dialog .dialog-actions {
     transition: none !important;
   }
 }
+
+/* ==========================================================================
+   Reserve Juggler — Public Landing & Shared Dark Theme
+   Institutional navy: #0B1220 page, #111C2E surfaces, #18263B cards
+   ========================================================================== */
+[data-theme="dark"] .glass-pill-nav {
+  background: rgba(17, 28, 46, 0.85);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+}
+
+[data-theme="dark"] .glass-pill-nav .nav-item {
+  color: #F1F5FB;
+}
+
+[data-theme="dark"] .glass-pill-nav .nav-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+}
+
+[data-theme="dark"] .glass-pill-nav .nav-toggle {
+  background: rgba(255, 255, 255, 0.06);
+  color: #F1F5FB;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="dark"] .glass-pill-nav .burger-line {
+  background: #F1F5FB;
+}
+
+[data-theme="dark"] .glass-pill-nav .nav-drawer {
+  background: #111C2E;
+  border-color: #24344D;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .glass-pill-nav .nav-drawer a {
+  color: #F1F5FB;
+}
+
+[data-theme="dark"] .glass-pill-nav .nav-drawer a:hover {
+  background: #18263B;
+}
+
+[data-theme="dark"] .vault-card {
+  background: #172E4E;
+  color: #FFFFFF;
+  border-color: #3B82F6;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .buffer-card {
+  background: #111C2E;
+  color: #F1F5FB;
+  border-color: #24344D;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .scene-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  opacity: 0.6;
+}
+
+[data-theme="dark"] .flow-dots i {
+  background: #3B82F6;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+}
+
+[data-theme="dark"] .premise-card {
+  background: #111C2E;
+  border-color: #24344D;
+  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .premise-card:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 8px 24px -2px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .premise-heading {
+  color: #82AAFF;
+}
+
+[data-theme="dark"] .premise strong,
+[data-theme="dark"] .premise-value {
+  color: #F1F5FB;
+}
+
+[data-theme="dark"] .premise span,
+[data-theme="dark"] .premise-desc,
+[data-theme="dark"] .premise-label {
+  color: #94A3B8;
+}
+
+[data-theme="dark"] .method-head h2 {
+  color: #FFFFFF;
+}
+
+[data-theme="dark"] .method-head-desc {
+  color: #94A3B8;
+}
+
+[data-theme="dark"] .timeline-spine-track {
+  background: #24344D;
+}
+
+[data-theme="dark"] .timeline-connector {
+  background: #24344D;
+}
+
+[data-theme="dark"] .timeline-marker.upcoming {
+  background: #111C2E;
+  border-color: #24344D;
+  color: #94A3B8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .timeline-marker.active {
+  background: #2563EB;
+  border-color: #60A5FA;
+  color: #FFFFFF;
+  box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.25), 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .timeline-marker.completed {
+  background: #162438;
+  border-color: #3B82F6;
+  color: #82AAFF;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+[data-theme="dark"] .timeline-card {
+  background: #111C2E;
+  border-color: #24344D;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .timeline-card.active {
+  border-color: rgba(59, 130, 246, 0.6);
+  box-shadow: 0 14px 34px -4px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(59, 130, 246, 0.3);
+}
+
+[data-theme="dark"] .landing-footer {
+  color: #64748B;
+  border-top-color: #24344D;
+}

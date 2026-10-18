@@ -30,7 +30,7 @@ export const CashflowChart: React.FC<{ rows: ForecastRow[]; floor: number; id?: 
     </div>
     <div className="forecast-chart-wrap">
       <svg className="forecast-svg" viewBox="0 0 900 280" role="img" tabIndex={0}
-        aria-label="Projected cash balance, blue mean with indigo planning envelope and amber policy minimum. Use arrow keys to inspect hours."
+        aria-label="Projected cash balance, blue mean with blue planning envelope and black policy minimum. Use arrow keys to inspect hours."
         onPointerMove={inspect} onKeyDown={e => {
           if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); setFocusIndex(Math.max(0, Math.min(rows.length - 1, active + (e.key === 'ArrowRight' ? 1 : -1)))); }
           if (e.key === 'Home' || e.key === 'End') { e.preventDefault(); setFocusIndex(e.key === 'Home' ? 0 : rows.length - 1); }

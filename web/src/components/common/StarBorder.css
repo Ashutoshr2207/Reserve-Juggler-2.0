@@ -1,0 +1,68 @@
+/* ==========================================================================
+   StarBorder Component — Twinkling Stardust Border Animation
+   ========================================================================== */
+
+.star-border-container {
+  position: relative;
+  isolation: isolate;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--star-border-radius, 12px);
+  border: 0;
+  padding: 0.875rem 1.5rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.25;
+  text-decoration: none;
+  background: var(--star-border-surface, #0c0c0f);
+  color: var(--star-border-text, #fafafa);
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: transform 0.16s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+}
+
+.star-border-container:hover {
+  transform: translateY(-1px);
+}
+
+.star-border-container:active {
+  transform: translateY(0) scale(0.985);
+}
+
+.star-border-container::before {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 var(--star-border-thickness, 1px) var(--star-border-track, rgba(255, 255, 255, 0.1));
+  content: '';
+}
+
+.star-border-container:focus-visible {
+  outline: 2px solid var(--star-border-track, rgba(255, 255, 255, 0.4));
+  outline-offset: 3px;
+}
+
+.star-border-container:disabled,
+.star-border-container[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.star-border-light {
+  pointer-events: none;
+  position: absolute;
+  top: -48px;
+  left: -48px;
+  z-index: -1;
+  width: calc(100% + 96px);
+  height: calc(100% + 96px);
+}

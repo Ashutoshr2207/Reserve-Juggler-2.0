@@ -9,6 +9,25 @@
   padding: 2rem 1.5rem;
   font-family: inherit;
   color: var(--ink);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+[data-theme="dark"] .auth-page {
+  background: linear-gradient(135deg, #0b1220 0%, #101c2e 100%);
+  color: #f1f5fb;
+}
+
+.auth-top-bar {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.auth-top-bar .auth-back-home {
+  margin-bottom: 0;
 }
 
 .auth-card {
@@ -20,6 +39,13 @@
   box-shadow: 0 10px 25px -5px rgba(10, 25, 47, 0.08), 0 8px 10px -6px rgba(10, 25, 47, 0.04);
   padding: 2.25rem 2rem;
   margin: 1rem 0;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-theme="dark"] .auth-card {
+  background: #111c2e;
+  border-color: #24344d;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.45);
 }
 
 .auth-header {
@@ -109,8 +135,8 @@
 }
 
 .auth-input.has-error {
-  border-color: #ef4444;
-  background: #fef2f2;
+  border-color: #18478d;
+  background: #eff6ff;
 }
 
 .auth-input-wrapper .auth-toggle-pwd {
@@ -132,14 +158,14 @@
 
 .auth-field-error {
   font-size: 0.75rem;
-  color: #dc2626;
+  color: #18478d;
   margin-top: 0.2rem;
 }
 
 .auth-alert-error {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #991b1b;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #18478d;
   padding: 0.75rem 1rem;
   border-radius: 6px;
   font-size: 0.875rem;
@@ -206,3 +232,46 @@
 .auth-back-home:hover {
   color: var(--ink);
 }
+
+[data-theme="dark"] .auth-title,
+[data-theme="dark"] .auth-brand,
+[data-theme="dark"] .auth-label {
+  color: #F1F5FB;
+}
+
+[data-theme="dark"] .auth-subtitle,
+[data-theme="dark"] .auth-footer,
+[data-theme="dark"] .auth-back-home {
+  color: #94A3B8;
+}
+
+[data-theme="dark"] .auth-input {
+  background: #0B1320;
+  border-color: #24344D;
+  color: #F1F5FB;
+}
+
+[data-theme="dark"] .auth-input:focus {
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+[data-theme="dark"] .auth-toggle-pwd {
+  color: #94A3B8;
+}
+
+[data-theme="dark"] .auth-toggle-pwd:hover {
+  color: #F1F5FB;
+}
+
+[data-theme="dark"] .auth-alert-error {
+  background: rgba(30, 58, 138, 0.35);
+  border-color: #3b82f6;
+  color: #93c5fd;
+}
+
+[data-theme="dark"] .auth-input.has-error {
+  background: rgba(30, 58, 138, 0.2);
+  border-color: #60a5fa;
+}
+

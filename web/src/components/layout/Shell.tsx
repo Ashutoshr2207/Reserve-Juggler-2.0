@@ -17,8 +17,6 @@ export const Shell: React.FC<ShellProps> = ({ currentRoute, children }) => {
     timerActive,
     toggleTimer,
     advanceHour,
-    loadState,
-    showToast,
     busy
   } = useTreasury();
 
@@ -40,12 +38,6 @@ export const Shell: React.FC<ShellProps> = ({ currentRoute, children }) => {
     ? `${date(state.as_of, true)} IST`
     : 'Syncing state...';
 
-  const handleRefresh = async () => {
-    if (busy) return;
-    await loadState();
-    showToast('Workspace refreshed.');
-  };
-
   return (
     <div className="workspace">
       <Sidebar
@@ -63,7 +55,6 @@ export const Shell: React.FC<ShellProps> = ({ currentRoute, children }) => {
           timerActive={timerActive}
           onToggleTimer={toggleTimer}
           onAdvance={advanceHour}
-          onRefresh={handleRefresh}
           busy={busy}
         />
         <main id="main" className="main-content">

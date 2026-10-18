@@ -3,6 +3,7 @@ import { useTreasury } from '../../hooks/useTreasury';
 import { money } from '../../utils/formatters';
 import { Heading } from '../common/Heading';
 import { UpcomingEvents } from '../common/UpcomingEvents';
+import SpecularButton from './SpecularButton';
 
 export const EventsPage: React.FC = () => {
   const { state, mutate, showToast, busy } = useTreasury();
@@ -32,7 +33,17 @@ export const EventsPage: React.FC = () => {
           </div>
           {isDelay && <p className="helper-line">Moves all pending settlement receipts later. No funds are deducted.</p>}
           {isRisk && <p className="helper-line">Replaces the current additional buffer immediately.</p>}
-          <div className="form-actions"><button className="btn" disabled={busy} type="submit">Simulate event & recalculate</button></div>
+          <div className="form-actions">
+            <SpecularButton
+              type="submit"
+              size="md"
+              variant="primary"
+              radius={18}
+              disabled={busy}
+            >
+              Simulate event & recalculate
+            </SpecularButton>
+          </div>
         </form>
       </section>
       <section className="panel"><div className="panel-header"><h2>Current position</h2></div><div className="panel-content">

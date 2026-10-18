@@ -3,6 +3,7 @@ import { useTreasury } from '../../hooks/useTreasury';
 import type { OptionDetails } from '../../types/treasury';
 import { date, money } from '../../utils/formatters';
 import { RiskBadge } from './RiskBadge';
+import SpecularButton from './SpecularButton';
 
 export const productName = (option: OptionDetails) => {
   if (option.id === 'flex') return 'Intraday placement';
@@ -30,7 +31,15 @@ export const DecisionCard: React.FC<{ showCompare?: boolean }> = ({ showCompare 
       </dl>
       {c.suggested <= 0 && <p className="inline-alert" role="status">{c.reason}</p>}
       <div className="form-actions">
-        <button className="btn" disabled={busy || c.suggested <= 0} onClick={() => openInvestModal(false)}>Review selected investment</button>
+        <SpecularButton
+          size="md"
+          variant="primary"
+          radius={12}
+          disabled={busy || c.suggested <= 0}
+          onClick={() => openInvestModal(false)}
+        >
+          Review selected investment
+        </SpecularButton>
         {showCompare && <a className="btn secondary" href="#investments">Compare options</a>}
       </div>
       <details className="inline-details">

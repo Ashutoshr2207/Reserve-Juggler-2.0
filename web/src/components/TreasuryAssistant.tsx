@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useHashRoute } from '../hooks/useHashRoute';
 import { useAuth } from '../hooks/useAuth';
 import { api, ApiError } from '../utils/api';
+import SpecularButton from './SpecularButton';
 import './TreasuryAssistant.css';
 
 type Message = { role: 'user' | 'assistant'; content: string };
@@ -142,7 +143,15 @@ export const TreasuryAssistant: React.FC = () => {
               }
             }} />
           <div><small>Do not share API keys or customer details.</small>
-            <button className="btn" type="submit" disabled={pending || !!failed || !input.trim()}>Send</button></div>
+            <SpecularButton
+              type="submit"
+              size="sm"
+              variant="primary"
+              radius={18}
+              disabled={pending || !!failed || !input.trim()}
+            >
+              Send
+            </SpecularButton></div>
           {failed && <button type="button" className="assistant-dismiss-error" onClick={() => {
             setMessages(messages.slice(0, -1)); setInput(failed); setFailed(''); setError('');
           }}>Edit question</button>}

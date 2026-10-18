@@ -1,5 +1,5 @@
-import React from 'react';
 import { ModalDialog } from './ModalDialog';
+import SpecularButton from '../common/SpecularButton';
 
 interface ResetModalProps {
   isOpen: boolean;
@@ -41,9 +41,15 @@ export const ResetModal: React.FC<ResetModalProps> = ({
           >
             Keep workspace
           </button>
-          <button type="submit" className="btn danger" disabled={busy}>
+          <SpecularButton
+            type="submit"
+            size="md"
+            variant="danger"
+            radius={18}
+            disabled={busy}
+          >
             Reset sandbox
-          </button>
+          </SpecularButton>
         </div>
       </form>
     </ModalDialog>

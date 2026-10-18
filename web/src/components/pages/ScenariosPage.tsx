@@ -5,6 +5,7 @@ import { api } from '../../utils/api';
 import { money } from '../../utils/formatters';
 import { Heading } from '../common/Heading';
 import { RiskBadge } from '../common/RiskBadge';
+import SpecularButton from './SpecularButton';
 
 const PRESETS = [
   { name: 'Normal operations', values: [0, 0, 0, 0], execution: 'success' },
@@ -75,7 +76,15 @@ export const ScenariosPage: React.FC = () => {
               {preset === 'Custom scenario' && <option>Custom scenario</option>}
             </select>
           </div>
-          <button className="btn" type="submit" disabled={submitting || busy}>{submitting ? 'Comparing…' : 'Compare scenarios'}</button>
+          <SpecularButton
+            type="submit"
+            size="md"
+            variant="primary"
+            radius={18}
+            disabled={submitting || busy}
+          >
+            {submitting ? 'Comparing…' : 'Compare scenarios'}
+          </SpecularButton>
         </div>
         <p className="helper-line">{assumptions || 'No additional stress applied.'}</p>
         <details className="inline-details"><summary>Adjust assumptions</summary>
@@ -102,7 +111,18 @@ export const ScenariosPage: React.FC = () => {
     <details className="panel model-details">
       <summary>Historical strategy comparison</summary><div className="panel-content">
         <p>Compare three reserve strategies over the last 24 observed hours using rolling seasonal-naive forecasts.</p>
-        <div className="form-actions"><button className="btn secondary" type="button" disabled={backtestRunning} onClick={backtest}>{backtestRunning ? 'Running comparison…' : 'Run comparison'}</button></div>
+        <div className="form-actions">
+          <SpecularButton
+            type="button"
+            size="md"
+            variant="primary"
+            radius={18}
+            disabled={backtestRunning}
+            onClick={backtest}
+          >
+            {backtestRunning ? 'Running comparison…' : 'Run comparison'}
+          </SpecularButton>
+        </div>
         {backtestReport && <div aria-live="polite">
           <p className="helper-line">{backtestReport.hours} hours · {backtestReport.model} · Simulated evaluation</p>
           <div className="table-wrap"><table><thead><tr><th>Strategy</th><th>Net accrued interest</th><th>Average idle cash</th><th>Floor breaches</th><th>Maximum gap</th><th>MAE / RMSE</th></tr></thead>
