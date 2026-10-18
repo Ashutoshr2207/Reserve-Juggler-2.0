@@ -1,0 +1,36 @@
+# AI/ML local artifact & data exclusions (OD-02 Data Protection Guard)
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.h5
+*.pkl
+*.joblib
+*.pt
+*.pth
+*.onnx
+*.bin
+
+# Model artifacts and weights
+weights/
+models/
+checkpoints/
+artifacts/
+
+# Local cache and runtime directories
+.cache/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+
+# Data directories (raw, interim, processed)
+data/raw/
+data/processed/
+data/external/
+
+# Environment files and logs
+.env
+*.log
+.runtime/
+.local/

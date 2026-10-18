@@ -1,0 +1,19 @@
+{
+  "project_name": "reserve-juggler-ml",
+  "version": "0.1.0",
+  "currency": "INR",
+  "sampling_frequency": "1h",
+  "forecast_horizon_hours": 72,
+  "confidence_levels": [0.90, 0.95, 0.99],
+  "investment_horizons_hours": [6, 24, 48, 72],
+  "data": {
+    "min_history_rows": 168,
+    "max_history_rows": 5000,
+    "default_dataset_path": "C:\\Users\\Office Pc\\OneDrive\\Documents\\AIML refined\\treasury_4tier_dataset.csv",
+    "expected_sha256": "2e7c1d2e5b678e9975250211e7e0017022049c510e1dd90cd7f29e931837b0c5"
+  },
+  "features": {
+    "lag_hours": [1, 2, 3, 24, 48, 72, 168],
+    "rolling_windows_hours": [24, 168]
+  }
+}
