@@ -15,12 +15,12 @@ export const GrossFlowChart: React.FC<{ state: TreasuryState; horizon: number }>
   const x = (i: number) => 70 + step * (i + .5);
   return <section className="panel flow-panel">
     <div className="panel-header"><div><span className="visual-eyebrow">GROSS CASHFLOWS</span><h2>Deposits & withdrawals</h2></div><span className="badge neutral">Next {horizon}h</span></div>
-    <div className="flow-readout"><span>{date(state.forecast[active].timestamp)} IST</span><div><span><i className="color-dot teal" />Deposits <strong>{money(rows[active].deposits)}</strong></span><span><i className="color-dot coral" />Withdrawals <strong>{money(rows[active].withdrawals)}</strong></span></div></div>
-    <div className="flow-svg-wrap"><svg viewBox="0 0 900 242" role="img" tabIndex={0} aria-label="Independent gross cashflow estimates. Teal deposits above the center line; coral withdrawals below. Use arrow keys to inspect each hour."
+    <div className="flow-readout"><span>{date(state.forecast[active].timestamp)} IST</span><div><span><i className="color-dot blue" />Deposits <strong>{money(rows[active].deposits)}</strong></span><span><i className="color-dot dark" />Withdrawals <strong>{money(rows[active].withdrawals)}</strong></span></div></div>
+    <div className="flow-svg-wrap"><svg viewBox="0 0 900 242" role="img" tabIndex={0} aria-label="Independent gross cashflow estimates. Blue deposits above the center line; navy withdrawals below. Use arrow keys to inspect each hour."
       onKeyDown={e => {
         if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setFocusIndex(Math.max(0, Math.min(rows.length - 1, active + (e.key === 'ArrowRight' ? 1 : -1)))); }
       }}>
-      <defs><linearGradient id={id + '-in'} x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#26bda6" /><stop offset="1" stopColor="#68d8bd" /></linearGradient><linearGradient id={id + '-out'} x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#f39b84" /><stop offset="1" stopColor="#e76f62" /></linearGradient></defs>
+      <defs><linearGradient id={id + '-in'} x1="0" x2="0" y2="1"><stop offset="0" stopColor="#3B82F6" /><stop offset="1" stopColor="#60A5FA" /></linearGradient><linearGradient id={id + '-out'} x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#0F172A" /><stop offset="1" stopColor="#1E3A8A" /></linearGradient></defs>
       {[26, 70, 113, 156, 200].map(v => <line key={v} x1="65" x2="860" y1={v} y2={v} stroke="#edf1f6" />)}
       <text x="55" y="30" textAnchor="end">{compact(maximum)}</text><text x="55" y="117" textAnchor="end">0</text><text x="55" y="204" textAnchor="end">{compact(-maximum)}</text>
       {rows.map((r, i) => {

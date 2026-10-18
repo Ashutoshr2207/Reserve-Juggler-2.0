@@ -10,9 +10,9 @@ export const LiquidityMap: React.FC<{ state: TreasuryState }> = ({ state }) => {
   const eligible = Math.min(Math.max(0, pool - reserve), p.selected.eligible);
   const other = Math.max(0, pool - reserve - eligible);
   const segments = [
-    { name: 'Reserved cash', value: reserve, color: '#aa9af5' },
-    { name: 'Eligible surplus', value: eligible, color: '#4bd9bc' },
-    { name: 'Other cash / fees', value: other, color: '#6984a7' }
+    { name: 'Reserved cash', value: reserve, color: '#3B82F6' },
+    { name: 'Eligible surplus', value: eligible, color: '#93C5FD' },
+    { name: 'Other cash / fees', value: other, color: '#64748B' }
   ];
   const circumference = 2 * Math.PI * 67;
   let offset = 0;

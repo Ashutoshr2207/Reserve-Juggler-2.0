@@ -1,6 +1,8 @@
 import React from 'react';
 import { Icon } from '../common/Icon';
+import { ThemeToggle } from '../common/ThemeToggle';
 import { useAuth } from '../../hooks/useAuth';
+import SpecularButton from '../common/SpecularButton';
 
 interface TopbarProps {
   title: string;
@@ -10,7 +12,6 @@ interface TopbarProps {
   timerActive: boolean;
   onToggleTimer: () => void;
   onAdvance: () => void;
-  onRefresh: () => void;
   busy: boolean;
 }
 
@@ -22,7 +23,6 @@ export const Topbar: React.FC<TopbarProps> = ({
   timerActive,
   onToggleTimer,
   onAdvance,
-  onRefresh,
   busy
 }) => {
   const { user, logout } = useAuth();
@@ -58,36 +58,52 @@ export const Topbar: React.FC<TopbarProps> = ({
       <div className="topbar-right">
         <span className="topbar-date">{dateText}</span>
         {timerActive ? (
-          <button
-            className="btn secondary small"
-            data-action="timer"
+          <SpecularButton
+            size="sm"
+            radius={18}
+            tint="#ffffff"
+            tintOpacity={0.04}
+            textColor="#f5f5f5"
+            lineColor="#ffffff"
+            baseColor="#525252"
+            intensity={1}
+            idleIntensity={0.35}
+            shineSize={10}
+            shineFade={34}
+            thickness={1.2}
+            glow={1}
+            followMouse
+            proximity={250}
             aria-label="Pause continuous simulation"
             onClick={onToggleTimer}
           >
             ⏸ Pause 60s
-          </button>
+          </SpecularButton>
         ) : (
-          <button
-            className="btn secondary small"
-            data-action="advance"
-            data-mutate
+          <SpecularButton
+            size="sm"
+            radius={18}
+            tint="#ffffff"
+            tintOpacity={0.04}
+            textColor="#f5f5f5"
+            lineColor="#ffffff"
+            baseColor="#525252"
+            intensity={1}
+            idleIntensity={0.35}
+            shineSize={10}
+            shineFade={34}
+            thickness={1.2}
+            glow={1}
+            followMouse
+            proximity={250}
             title="Simulate 1 hour ahead"
             onClick={onAdvance}
             disabled={busy}
           >
             <Icon name="play" /> Advance 1h
-          </button>
+          </SpecularButton>
         )}
-        <button
-          className="btn ghost small"
-          data-action="refresh"
-          aria-label="Refresh workspace"
-          title="Refresh simulated state"
-          onClick={onRefresh}
-          disabled={busy}
-        >
-          <Icon name="refresh" />
-        </button>
+        <ThemeToggle />
 
         {user && (
           <div

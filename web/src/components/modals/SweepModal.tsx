@@ -3,6 +3,7 @@ import type { TreasuryState } from '../../types/treasury';
 import { money } from '../../utils/formatters';
 import { Icon } from '../common/Icon';
 import { ModalDialog } from './ModalDialog';
+import SpecularButton from '../common/SpecularButton';
 
 interface SweepModalProps {
   isOpen: boolean;
@@ -64,9 +65,27 @@ export const SweepModal: React.FC<SweepModalProps> = ({
           >
             Cancel
           </button>
-          <button type="submit" className="btn" disabled={busy}>
+          <SpecularButton
+            type="submit"
+            size="md"
+            radius={18}
+            tint="#ffffff"
+            tintOpacity={0.04}
+            textColor="#f5f5f5"
+            lineColor="#ffffff"
+            baseColor="#525252"
+            intensity={1}
+            idleIntensity={0.35}
+            shineSize={10}
+            shineFade={34}
+            thickness={1.2}
+            glow={1}
+            followMouse
+            proximity={250}
+            disabled={busy}
+          >
             Simulate sweep <Icon name="arrow" />
-          </button>
+          </SpecularButton>
         </div>
         <div className="dialog-error" role="alert">
           {errorMsg}

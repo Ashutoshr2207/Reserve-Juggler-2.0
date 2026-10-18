@@ -1,5 +1,5 @@
-import React from 'react';
 import { ModalDialog } from './ModalDialog';
+import SpecularButton from '../common/SpecularButton';
 
 interface ResetModalProps {
   isOpen: boolean;
@@ -41,9 +41,27 @@ export const ResetModal: React.FC<ResetModalProps> = ({
           >
             Keep workspace
           </button>
-          <button type="submit" className="btn danger" disabled={busy}>
+          <SpecularButton
+            type="submit"
+            size="md"
+            radius={18}
+            tint="#ffffff"
+            tintOpacity={0.04}
+            textColor="#f5f5f5"
+            lineColor="#ffffff"
+            baseColor="#525252"
+            intensity={1}
+            idleIntensity={0.35}
+            shineSize={10}
+            shineFade={34}
+            thickness={1.2}
+            glow={1}
+            followMouse
+            proximity={250}
+            disabled={busy}
+          >
             Reset sandbox
-          </button>
+          </SpecularButton>
         </div>
       </form>
     </ModalDialog>

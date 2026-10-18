@@ -2,8 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from '../common/Icon';
 import { CurvedLoop } from '../common/CurvedLoop';
 import { BlurText } from '../common/BlurText';
+import { ThemeToggle } from '../common/ThemeToggle';
 import { TimelineWorkflow } from '../landing/TimelineWorkflow';
 import { useAuth } from '../../hooks/useAuth';
+import { useTheme } from '../../hooks/useTheme';
+import SpecularButton from './SpecularButton';
 
 interface LandingPageProps {
   onScrollToMethod: (e: React.MouseEvent) => void;
@@ -13,6 +16,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onScrollToMethod
 }) => {
   const { authenticated, loading: authLoading, checkAuth } = useAuth();
+  const { theme } = useTheme();
   const [checkingWorkspace, setCheckingWorkspace] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
@@ -80,6 +84,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <a className="nav-item" href="#scenarios">
               Explore scenarios
             </a>
+            <ThemeToggle />
           </div>
 
           <button
@@ -123,6 +128,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               >
                 Explore scenarios
               </a>
+              <div className="drawer-theme-wrap" style={{ padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--muted)' }}>Appearance</span>
+                <ThemeToggle />
+              </div>
               <a
                 className="drawer-primary"
                 href={authenticated ? '#overview' : '#login'}
@@ -182,15 +191,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               eligible surplus that can earn yield.
             </p>
             <div className="hero-actions">
-              <a
-                className="btn primary"
-                href={authenticated ? '#overview' : '#login'}
-                onClick={handleEnterWorkspace}
+              <SpecularButton
+                size="lg"
+                radius={18}
+                tint="#ffffff"
+                tintOpacity={0.04}
+                textColor="#f5f5f5"
+                lineColor="#ffffff"
+                baseColor="#525252"
+                intensity={1}
+                idleIntensity={0.35}
+                shineSize={10}
+                shineFade={34}
+                thickness={1.2}
+                glow={1}
+                followMouse
+                proximity={250}
+                onClick={(e) => handleEnterWorkspace(e)}
                 aria-busy={checkingWorkspace}
               >
-                {checkingWorkspace ? 'Verifying session…' : 'Enter Workspace'}{' '}
-                <Icon name="arrow" />
-              </a>
+                {checkingWorkspace ? 'Verifying session…' : 'Get Started'} <span style={{ marginLeft: 6, display: 'inline-block' }}>→</span>
+              </SpecularButton>
             </div>
           </div>
           <div
@@ -252,8 +273,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               edgeFade={true}
               interactive={false}
               pauseOnHover={false}
-              separatorColor="#214F91"
-              color="#10213A"
+              separatorColor={theme === 'dark' ? '#82AAFF' : '#214F91'}
+              color={theme === 'dark' ? '#F1F5FB' : '#10213A'}
             />
           </div>
         </section>

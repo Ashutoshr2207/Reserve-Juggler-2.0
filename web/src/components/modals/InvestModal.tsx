@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { TreasuryState } from '../../types/treasury';
 import { date, money } from '../../utils/formatters';
 import { ModalDialog } from './ModalDialog';
+import SpecularButton from '../common/SpecularButton';
 
 interface InvestModalProps {
   isOpen: boolean;
@@ -68,9 +69,27 @@ export const InvestModal: React.FC<InvestModalProps> = ({
           >
             Cancel
           </button>
-          <button className="btn" data-mutate type="submit" disabled={busy}>
+          <SpecularButton
+            type="submit"
+            size="md"
+            radius={18}
+            tint="#ffffff"
+            tintOpacity={0.04}
+            textColor="#f5f5f5"
+            lineColor="#ffffff"
+            baseColor="#525252"
+            intensity={1}
+            idleIntensity={0.35}
+            shineSize={10}
+            shineFade={34}
+            thickness={1.2}
+            glow={1}
+            followMouse
+            proximity={250}
+            disabled={busy}
+          >
             Confirm simulation
-          </button>
+          </SpecularButton>
         </div>
       </form>
     </ModalDialog>

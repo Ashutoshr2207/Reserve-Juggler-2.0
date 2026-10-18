@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import { ThemeToggle } from '../common/ThemeToggle';
+import SpecularButton from './SpecularButton';
 import './AuthPages.css';
 
 export const RegisterPage: React.FC = () => {
@@ -64,9 +66,12 @@ export const RegisterPage: React.FC = () => {
 
   return (
     <div className="auth-page">
-      <a href="#home" className="auth-back-home">
-        ← Back to Reserve Juggler
-      </a>
+      <div className="auth-top-bar">
+        <a href="#home" className="auth-back-home">
+          ← Back to Reserve Juggler
+        </a>
+        <ThemeToggle />
+      </div>
 
       <div className="auth-card">
         <div className="auth-header">
@@ -237,13 +242,28 @@ export const RegisterPage: React.FC = () => {
             )}
           </div>
 
-          <button
+          <SpecularButton
             type="submit"
-            className="auth-btn-primary"
+            size="lg"
+            radius={18}
+            tint="#ffffff"
+            tintOpacity={0.04}
+            textColor="#f5f5f5"
+            lineColor="#ffffff"
+            baseColor="#525252"
+            intensity={1}
+            idleIntensity={0.35}
+            shineSize={10}
+            shineFade={34}
+            thickness={1.2}
+            glow={1}
+            followMouse
+            proximity={250}
             disabled={loading}
+            style={{ width: '100%', marginTop: '12px' }}
           >
             {loading ? 'Creating Account…' : 'Create Account'}
-          </button>
+          </SpecularButton>
         </form>
 
         <div className="auth-footer">

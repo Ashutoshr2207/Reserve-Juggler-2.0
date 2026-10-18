@@ -24,9 +24,9 @@
 .assistant-compose .btn { min-height: 36px; padding: 7px 16px; }
 .assistant-context { margin: 0; padding: 6px 16px; color: #596b80; font-size: 10px; border-top: 1px solid #e5eaf1; }
 .assistant-loading { font-size: 13px; color: #596b80; }
-.assistant-error { border: 1px solid #eeb6b6; background: #fff5f5; border-radius: 10px; padding: 12px; font-size: 12px; }
+.assistant-error { border: 1px solid #bfdbfe; background: #eff6ff; border-radius: 10px; padding: 12px; font-size: 12px; color: #18478d; }
 .assistant-error p { margin: 0 0 6px; }
-.assistant-error button { padding: 8px 12px; background: white; border: 1px solid #bd6a6a; border-radius: 7px; cursor: pointer; color: #7f2929; }
+.assistant-error button { padding: 8px 12px; background: white; border: 1px solid #18478d; border-radius: 7px; cursor: pointer; color: #18478d; }
 .treasury-assistant button:focus-visible, .treasury-assistant textarea:focus-visible { outline: 3px solid #82b3ff; outline-offset: 2px; }
 .treasury-assistant button:disabled { opacity: .5; cursor: default; }
 @media (max-width: 600px) {
@@ -34,3 +34,84 @@
   .assistant-launcher { padding: 11px 15px; font-size: 12px; margin-left: auto; }
   .assistant-panel { width: 100%; height: min(640px, calc(100dvh - 90px)); border-radius: 14px; }
 }
+
+[data-theme="dark"] .assistant-panel {
+  background: #111C2E;
+  border-color: #24344D;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.65);
+  color: #F1F5FB;
+}
+
+[data-theme="dark"] .assistant-header {
+  background: #0B1220;
+  border-bottom: 1px solid #24344D;
+}
+
+[data-theme="dark"] .assistant-toolbar {
+  background: #152236;
+  border-color: #24344D;
+  color: #94A3B8;
+}
+
+[data-theme="dark"] .assistant-toolbar button,
+[data-theme="dark"] .assistant-dismiss-error {
+  color: #82AAFF;
+}
+
+[data-theme="dark"] .assistant-message-assistant {
+  background: #18263B;
+  color: #F1F5FB;
+}
+
+[data-theme="dark"] .assistant-message-user {
+  background: #1D365A;
+  color: #FFFFFF;
+}
+
+[data-theme="dark"] .assistant-suggestions button {
+  background: #152236;
+  border-color: #24344D;
+  color: #82AAFF;
+}
+
+[data-theme="dark"] .assistant-suggestions button:hover {
+  background: #1E3352;
+  border-color: #3B82F6;
+}
+
+[data-theme="dark"] .assistant-compose {
+  border-color: #24344D;
+}
+
+[data-theme="dark"] .assistant-compose label {
+  color: #F1F5FB;
+}
+
+[data-theme="dark"] .assistant-compose textarea {
+  background: #0B1320;
+  border-color: #24344D;
+  color: #F1F5FB;
+}
+
+[data-theme="dark"] .assistant-compose textarea:focus {
+  border-color: #3B82F6;
+}
+
+[data-theme="dark"] .assistant-compose small,
+[data-theme="dark"] .assistant-context,
+[data-theme="dark"] .assistant-loading {
+  color: #8EA1B8;
+}
+
+[data-theme="dark"] .assistant-error {
+  background: #15243B;
+  border-color: #3B82F6;
+  color: #93C5FD;
+}
+
+[data-theme="dark"] .assistant-error button {
+  background: #18263B;
+  border-color: #3B82F6;
+  color: #FFFFFF;
+}
+

@@ -1,0 +1,115 @@
+.specular-button {
+  --sb-radius: 18px;
+  --sb-tint: #ffffff;
+  --sb-tint-opacity: 0.04;
+  --sb-blur: 8px;
+  --sb-text-color: #f5f5f5;
+  --sb-base-bg: #0A192F;
+
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  margin: 0;
+  border: 0;
+  border-radius: var(--sb-radius);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  color: var(--sb-text-color);
+  background: color-mix(in srgb, var(--sb-tint) calc(var(--sb-tint-opacity) * 100%), var(--sb-base-bg));
+  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(var(--sb-blur));
+  backdrop-filter: blur(var(--sb-blur));
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease, opacity 0.2s ease;
+  overflow: visible;
+  text-decoration: none;
+  user-select: none;
+}
+
+.specular-button:hover {
+  box-shadow: 0 12px 28px -8px rgba(24, 71, 141, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.specular-button:active {
+  transform: scale(0.97);
+}
+
+.specular-button:focus-visible {
+  outline: 2px solid #3B82F6;
+  outline-offset: 3px;
+}
+
+.specular-button:disabled,
+.specular-button[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.specular-button:disabled:active {
+  transform: none;
+}
+
+/* Sizing variations */
+.specular-button--sm {
+  padding: 8px 16px;
+  font-size: 0.8125rem;
+  min-height: 32px;
+}
+
+.specular-button--md {
+  padding: 10px 22px;
+  font-size: 0.9375rem;
+  min-height: 40px;
+}
+
+.specular-button--lg {
+  padding: 14px 32px;
+  font-size: 1.0625rem;
+  min-height: 48px;
+}
+
+/* Variant color modifiers */
+.specular-button--primary {
+  --sb-base-bg: #18478D;
+  --sb-text-color: #ffffff;
+}
+
+.specular-button--secondary {
+  --sb-base-bg: #0F172A;
+  --sb-text-color: #F1F5FB;
+}
+
+.specular-button--danger {
+  --sb-base-bg: #0A192F;
+  --sb-text-color: #93C5FD;
+}
+
+/* Canvas light layer */
+.specular-button__light {
+  position: absolute;
+  inset: -24px;
+  z-index: 1;
+  display: block;
+  width: calc(100% + 48px);
+  height: calc(100% + 48px);
+  pointer-events: none;
+}
+
+/* Content label */
+.specular-button__label {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  width: 100%;
+}

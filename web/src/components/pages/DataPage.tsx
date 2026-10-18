@@ -3,6 +3,7 @@ import { useTreasury } from '../../hooks/useTreasury';
 import { date, number } from '../../utils/formatters';
 import { Heading } from '../common/Heading';
 import { Icon } from '../common/Icon';
+import SpecularButton from './SpecularButton';
 
 export const DataPage: React.FC = () => {
   const { state, mutate, showToast, stopTimer, busy } = useTreasury();
@@ -35,7 +36,29 @@ export const DataPage: React.FC = () => {
             <input type="file" id="csv-file" ref={fileInputRef} accept=".csv,text/csv" aria-label="Choose hourly cashflow CSV" required disabled={busy || locked} />
           </div>
           {locked && <p className="inline-alert">Import is unavailable until current investments mature.</p>}
-          <div className="form-actions"><button className="btn" type="submit" disabled={busy || locked}>Validate & import</button></div>
+          <div className="form-actions">
+            <SpecularButton
+              type="submit"
+              size="md"
+              radius={18}
+              tint="#ffffff"
+              tintOpacity={0.04}
+              textColor="#f5f5f5"
+              lineColor="#ffffff"
+              baseColor="#525252"
+              intensity={1}
+              idleIntensity={0.35}
+              shineSize={10}
+              shineFade={34}
+              thickness={1.2}
+              glow={1}
+              followMouse
+              proximity={250}
+              disabled={busy || locked}
+            >
+              Validate & import
+            </SpecularButton>
+          </div>
           <p className="helper-line">Replaces observations and disables auto-sweep. Simulated balances are preserved.</p>
         </form>
         <details className="inline-details"><summary>CSV format & requirements</summary>
@@ -58,7 +81,29 @@ export const DataPage: React.FC = () => {
           <div className="form-field"><label htmlFor="demo-cash">Liquid funds · ₹</label><input id="demo-cash" type="number" min="0" max="10000000000" step="0.01" value={cash} required disabled={locked} onChange={e => setCash(Number(e.target.value))} /></div>
           <div className="form-field"><label htmlFor="demo-vault">Already invested · ₹</label><input id="demo-vault" type="number" min="0" max="10000000000" step="0.01" value={vault} required disabled={locked} onChange={e => setVault(Number(e.target.value))} /></div>
         </div>
-        <div className="form-actions"><button className="btn" type="submit" disabled={busy || locked}>Save simulated balances</button></div>
+        <div className="form-actions">
+          <SpecularButton
+            type="submit"
+            size="md"
+            radius={18}
+            tint="#ffffff"
+            tintOpacity={0.04}
+            textColor="#f5f5f5"
+            lineColor="#ffffff"
+            baseColor="#525252"
+            intensity={1}
+            idleIntensity={0.35}
+            shineSize={10}
+            shineFade={34}
+            thickness={1.2}
+            glow={1}
+            followMouse
+            proximity={250}
+            disabled={busy || locked}
+          >
+            Save simulated balances
+          </SpecularButton>
+        </div>
       </form>
     </details>
     <details className="panel model-details"><summary>What is simulated?</summary><div className="panel-content"><p>Balances, investments and payment events are simulated. Importing observations does not connect a bank or establish live balances. Statutory CRR/SLR funds are outside this operational pool.</p></div></details>
