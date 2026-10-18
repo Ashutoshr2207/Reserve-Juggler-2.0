@@ -4,12 +4,13 @@
 
 Reserve Juggler addresses **PS 1: The Idle Cash Problem — Automated Treasury Management and Yield Optimization**. It connects financial observations, cash-flow forecasting, liquidity-risk assessment, reserve calculations, investment selection, simulated sweeps, and balance checks in one workflow.
 
-The repository contains two applications:
+The repository contains three primary components:
 
-| Application | Purpose | Entry point |
+| Component | Purpose | Entry point |
 | --- | --- | --- |
-| INR hourly treasury dashboard | Time-aware cash protection, maturity-aware investments, event simulation, and explainable decisions | `server.py` and `web/` |
+| INR hourly treasury dashboard | Modern React 18 SPA with time-aware cash protection, maturity-aware investments, event simulation, AI assistant, and explainable decisions | `server.py` and `web/` |
 | Multi-currency daily engine | Daily forecasting, balance projection, EUR-normalized funding allocation, backtesting, and Excel reporting | `app.py` or `main.py` |
+| Standalone AI/ML package | Causal feature engineering, Random Forest / XGBoost models, conformal interval calibration, path-risk scenarios, and shadow diagnostic integration | `ai_ml/` (`reserve_juggler_ml`) |
 
 **All balances, investments, transfers, and execution outcomes in the hourly dashboard are simulated.** Importing observations does not connect a bank or establish live account balances. The default example uses INR; it is an adaptation of the problem statement, not a currency conversion of its dollar amounts.
 
@@ -30,27 +31,56 @@ The repository contains two applications:
 
 ## Quick start
 
-Use the prepared Python environment for the backend. The current React dashboard
-requires Node.js and a frontend build: run `npm ci` then `npm run build` inside
-`web/` before starting Python. The server serves that build from `web/dist`.
+The current application consists of a Python backend and a React 18 TypeScript frontend built with Vite.
 
-The new **Ask Treasury Assistant** panel uses Groq and read-only session context.
-Set `GROQ_API_KEY` in the backend environment to enable answers. Missing
-configuration does not prevent the dashboard from running. See
-[Treasury Assistant setup and verification](TREASURY_ASSISTANT.md) for configuration,
-API limits, knowledge sources and known implementation discrepancies.
+### Prerequisites
 
-### Windows
+- **Python 3.12+** with a virtual environment (`.venv` or `.venv-win`)
+- **Node.js 18+** for the frontend build
+- **MongoDB** (optional, running on `mongodb://127.0.0.1:27017` for banker authentication; falls back to in-memory/SQLite if unavailable)
+- **Groq API Key** (optional, set `GROQ_API_KEY` in `.env` for the Ask Treasury Assistant panel)
 
-From the repository root, create an environment if one is not already prepared:
+### 1. Build the Frontend
+
+From the repository root:
 
 ```powershell
-python -m venv .venv-win
-.\.venv-win\Scripts\python.exe -m pip install -r requirements.txt -r requirements-dev.txt
+cd web
+npm ci
+npm run build
+cd ..
+```
+
+The production bundle is compiled into `web/dist` and served directly by Python.
+
+### 2. Configure Environment
+
+Copy `.env.example` to `.env` (which is ignored by Git) to configure optional services:
+
+```ini
+GROQ_API_KEY=your_groq_api_key
+GROQ_MODEL=openai/gpt-oss-120b
+TREASURY_ASSISTANT_TIMEOUT=30
+MONGODB_URI=mongodb://127.0.0.1:27017
+MONGODB_DB_NAME=reserve_juggler
+RJ_ML_SHADOW_ENABLED=false
+```
+
+### 3. Launch the Application
+
+#### Windows
+
+From the repository root:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt -r requirements-dev.txt
+# Optional editable installation of the AI/ML research package:
+.\.venv\Scripts\python.exe -m pip install -e ai_ml
 .\start.ps1
 ```
 
-Open [the dashboard](http://127.0.0.1:8000/#overview). The launcher starts a hidden background process or reuses a healthy server on the requested port. Its logs and PID are saved under `.runtime/`.
+Open [http://127.0.0.1:8000/#home](http://127.0.0.1:8000/#home) to explore the public landing page, or sign in at `#login` to access the protected workspace at `#overview`.
 
 For foreground execution or another port:
 
@@ -58,21 +88,18 @@ For foreground execution or another port:
 .\start.ps1 -Foreground
 .\start.ps1 -Port 8019
 # Direct execution:
-.\.venv-win\Scripts\python.exe server.py --port 8000
+.\.venv\Scripts\python.exe server.py --port 8000
 ```
 
-After backend source changes, restart the server: reusing a healthy process does not reload Python modules. Stop a foreground process with Ctrl+C. The review instance used for the latest verification was on port **8019**; the default remains **8000**.
-
-### macOS or Linux
+#### macOS or Linux
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements.txt -r requirements-dev.txt
+pip install -r requirements.txt -r requirements-dev.txt
+pip install -e ai_ml
 python server.py --port 8000
 ```
-
-The recorded verification was performed on Windows. `requirements-lock.txt` records the prepared dependency versions. No new runtime dependencies were added for the integrated treasury workflow.
 
 ## Treasury workflow
 
@@ -203,10 +230,15 @@ The HTTP server binds to loopback only. It serves the dashboard and uses an Http
 
 | Method | Endpoint | Purpose |
 | --- | --- | --- |
-| GET | `/api/health` | Health and simulation mode |
-| GET | `/api/state` | Balances, forecasts, integrated intelligence, events, and ledger |
-| GET | `/api/template` | Complete hourly sample CSV |
-| GET | `/api/export` | Net forecast CSV with policy and recommendation fields |
+| GET | `/api/health` | Health, simulation mode, and database connectivity status |
+| GET | `/api/state` | Balances, forecasts, integrated intelligence, events, ledger, and optional shadow diagnostic |
+| GET | `/api/template` | Complete hourly sample CSV template |
+| GET | `/api/export` | Net forecast CSV with policy, recommendation, and model fields |
+| POST | `/api/auth/register` | Register new banker account with Argon2id password hashing |
+| POST | `/api/auth/login` | Authenticate banker credentials and establish session cookie |
+| POST | `/api/auth/logout` | Terminate session and clear cookie |
+| GET | `/api/auth/session` | Verify active authenticated banker session |
+| POST | `/api/assistant` | Ask Treasury Assistant (Groq LLM with read-only workspace context) |
 | POST | `/api/planning_optimize` | Revalidate and simulate the best-return eligible product |
 | POST | `/api/planning_invest` | Revalidate and simulate the manually selected product |
 | POST | `/api/planning_policy` | Selected product, additional risk buffer, and illustrative rates |
@@ -287,17 +319,17 @@ Use `--output path/to/report.json` to keep separate runs; the default output is 
 
 Latest recorded verification, **18 October 2026**:
 
-| Check | Result |
-| --- | --- |
-| Baseline suite before alignment changes | 96 passed |
-| Final complete suite | **116 passed in 13.71 seconds** |
-| Ruff lint | Passed |
-| Ruff formatting | 36 files passed |
-| Both frontend JavaScript syntax checks | Passed |
-| Real-model HTTP integration | Passed in the suite |
-| Browser checks | Overview, optimized review, failure with unchanged balances, stress blocking, strategy table, and timeline inspected |
+| Check | Result | Command |
+| --- | --- | --- |
+| Complete backend test suite | **198 passed, 0 failed in 95.03s** | `pytest tests` |
+| Complete AI/ML package test suite | **133 passed, 2 skipped, 0 failed in 11.87s** | `pytest ai_ml/tests` |
+| Focused backend shadow availability tests | **28 passed, 0 failed, 2 warnings in 8.12s** | `pytest tests/test_ml_shadow.py` |
+| Focused ML contract and adapter tests | **72 passed, 0 failed in 4.76s** | `pytest ai_ml/tests/test_shadow_contract.py ai_ml/tests/test_adapter.py` |
+| Frontend TypeScript type check | **Passed (exit code 0)** | `tsc --noEmit` (in `web/`) |
+| Frontend production bundle build | **Built in 1.44s (0 errors)** | `npm run build` (in `web/`) |
+| Ruff Python linter & formatter | **Passed** | `ruff check .` and `ruff format --check .` |
 
-Coverage includes chronological payout protection, same-time outflow priority, forecast uncertainty, fees, product constraints, maturity interest, locked-principal exclusion, settlement delays, funding gaps, failure/timeout deferral, exact retries, stale revisions, reconciliation, isolated scenarios, training-prefix leakage checks, and the original daily multi-currency functionality.
+Coverage includes chronological payout protection, same-time outflow priority, forecast uncertainty, fees, product constraints, maturity interest, locked-principal exclusion, settlement delays, funding gaps, failure/timeout deferral, exact retries, stale revisions, reconciliation, isolated scenarios, training-prefix leakage checks, banker authentication, MongoDB user management, assistant security, ML shadow non-interference, and the original daily multi-currency functionality.
 
 ```powershell
 .\.venv-win\Scripts\python.exe -m pytest -q
@@ -333,28 +365,57 @@ The batch script generates sample daily cashflows, forecasts and allocation reco
 ## Repository structure
 
 ```text
-LiquidityForecasting-main/
-├── server.py                     # Loopback API, static files, SQLite session storage
-├── start.ps1                     # Windows background/foreground launcher
+Reserve-Juggler-2.0/
+├── server.py                     # HTTP server, REST endpoints, static files, SQLite sessions
+├── start.ps1                     # Windows background/foreground process launcher
 ├── app.py                        # Daily multi-currency Streamlit application
 ├── main.py                       # Daily batch demonstration
-├── liquidity_forecasting/
-│   ├── treasury.py               # Forecasts, simulated settlement, state mutations
-│   ├── planning.py               # Timed cash path, reserves, products, explanations
+├── liquidity_forecasting/        # Authoritative treasury engine
+│   ├── treasury.py               # Forecasts, simulated settlement, state mutations, clock
+│   ├── planning.py               # Timed cash path, reserve floors, products, explanations
 │   ├── strategy_evaluation.py    # Common-data A/B/C chronological replay
-│   ├── model.py                  # SARIMAX and seasonal-naive fallback
+│   ├── model.py                  # SARIMAX(1,0,1)x(1,0,1,24) and seasonal-naive fallback
+│   ├── auth.py                   # Argon2id password hashing, MongoDB/SQLite banker sessions
+│   ├── assistant.py              # Groq LLM Chat Completions client and knowledge provider
+│   ├── assistant_knowledge.md    # Curated treasury operational knowledge base
+│   ├── ml_shadow.py              # Diagnostic bridge to optional ML package
 │   ├── evaluation.py             # Daily rolling forecast evaluation
 │   ├── data.py / validation.py   # Daily data generation and validation
 │   ├── balances.py / fx.py       # Daily projections and FX normalization
 │   ├── allocation.py             # Constrained daily funding allocation
 │   └── export.py / plotting.py   # Excel reports and plots
-├── web/                          # Dashboard HTML, CSS, and JavaScript modules
-├── tests/                        # Unit, acceptance, and HTTP integration tests
+├── ai_ml/                        # Standalone AI/ML research package (reserve_juggler_ml)
+│   ├── README.md                 # Package documentation and quick start
+│   ├── pyproject.toml            # Build configuration and dependencies
+│   ├── src/reserve_juggler_ml/
+│   │   ├── data/                 # Causal data loaders & validation schemas
+│   │   ├── features/             # 22-dimensional causal feature engineering
+│   │   ├── forecasting/          # Random Forest & XGBoost multi-horizon regressors
+│   │   ├── uncertainty/          # Lead-time conformal prediction-interval calibration
+│   │   ├── liquidity_risk/       # Paired-trajectory scenario path-drawdown calibrator
+│   │   ├── evaluation/           # Chronological rolling metrics (MAE, RMSE, MASE, R²)
+│   │   └── integration/          # Backend adapter, contract validator & shadow executor
+│   ├── tests/                    # 133 unit & contract tests
+│   └── docs/                     # Research reports, calibration & shadow integration docs
+├── web/                          # Frontend application
+│   ├── src/                      # React 18 TypeScript source code
+│   │   ├── components/           # Pages, layout (Shell, Sidebar, Topbar), modals, charts
+│   │   ├── context/              # AuthContext and TreasuryContext state providers
+│   │   ├── hooks/                # useTreasury, useAuth, useHashRoute hooks
+│   │   ├── types/                # TypeScript interfaces for auth and treasury state
+│   │   ├── utils/                # API client, formatters, download helpers
+│   │   └── main.tsx / App.tsx    # Application entry point and router
+│   ├── dist/                     # Compiled production bundle (served by server.py)
+│   ├── package.json              # Dependencies (Vite, React 18, TypeScript)
+│   └── vite.config.ts            # Vite configuration and development proxy
+├── tests/                        # 198 backend unit, acceptance, and HTTP integration tests
 ├── reports/                      # Saved measured synthetic replay results
 ├── requirements*.txt            # Runtime, development, and locked dependencies
+├── ML_INTEGRATION_CONTRACT.md    # Historical ML integration contract specification
+├── BACKEND_FRONTEND_INTEGRATION_GAPS.md # Operational deployment gap analysis
+├── TREASURY_ASSISTANT.md         # Groq LLM Assistant setup and verification guide
 ├── ALIGNMENT_REPORT.md           # Current audit, methodology, results, and demo
 ├── VERIFICATION.md               # Recorded checks and test evidence
-├── PLANNING.md / HANDOVER.md      # Earlier design details with update notices
 └── .runtime/                     # Local SQLite state, logs, and generated artifacts
 ```
 

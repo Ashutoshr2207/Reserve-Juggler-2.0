@@ -2,8 +2,17 @@
 
 **Version:** 1.0.0-draft  
 **Audit Date:** 18 October 2026  
-**Status:** Canonical AI/ML Integration Specification  
+**Status:** Historical draft for future operational integration
 **Scope:** Interface contract between `reserve_juggler_ml` and the backend treasury engine (`server.py`, `treasury.py`, `planning.py`).
+
+The implemented contract is the limited, disabled-by-default
+[shadow integration](SHADOW_INTEGRATION.md). Its strict request/model gates use
+the existing `ForecastOutput`, `ForecastResponse` and adapter shapes, but converted
+ML rows never replace the application forecasts. Existing USD artifacts cannot
+serve INR inputs. Currency defaults, implicit cutoff assignment, automatic ML
+fallback and the drop-in replacement language below are superseded for shadow
+mode. Operational adoption remains a separate unimplemented proposal. The
+application does not calculate statutory CRR/SLR reserves.
 
 ---
 
