@@ -89,7 +89,6 @@ const icon = name =>
   `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[name] || paths.arrow}"/></svg>`;
 const brand = () =>
   `<a class="brand" href="#home" aria-label="Reserve Juggler home">
-    <div class="brand-badge"><img src="/favicon.svg" alt="Reserve Juggler"></div>
     <div class="brand-text">
       <span class="brand-name">RESERVE JUGGLER</span>
       <span class="brand-small">TREASURY INTELLIGENCE</span>
@@ -126,18 +125,41 @@ const nav = navGroups.flatMap(g => g.items.map(([id, i, label]) => [id, i, label
 const current = () => location.hash.slice(1) || 'home';
 
 async function api(path, payload) {
-  const response = await fetch(`/api/${path}`, payload === undefined ? {
-    signal: AbortSignal.timeout(120000)
-  } : {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload),
-    signal: AbortSignal.timeout(120000)
-  });
-  const data = await response.json();
-  if (!response.ok) throw new Error(data.error || `Request failed (${response.status}).`);
+  let response;
+  try {
+    response = await fetch(`/api/${path}`, payload === undefined ? {
+      signal: AbortSignal.timeout(120000)
+    } : {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(120000)
+    });
+  } catch (err) {
+    throw new Error(`Unable to connect to /api/${path} (${err.message}). Ensure the server is running on port 8000.`);
+  }
+
+  const text = (await response.text()).trim();
+  let data = null;
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      // Non-JSON response
+    }
+  }
+
+  if (!response.ok) {
+    const detail = (data && data.error) || (text && text.length < 200 ? text : '') || response.statusText || 'Error';
+    throw new Error(`Request to /api/${path} failed (${response.status}): ${detail}`);
+  }
+
+  if (!data) {
+    throw new Error(`Server returned an empty or invalid response for /api/${path}.`);
+  }
+
   return data;
 }
 
@@ -202,24 +224,22 @@ async function load() {
 function landing() {
   return `<div class="landing">
     <header class="landing-nav">
-      ${brand()}
-      <nav class="landing-links" aria-label="Main">
-        <a href="#method" data-scroll="method">How it works</a>
-        <a href="#scenarios">Explore scenarios</a>
-        <a class="btn primary" href="#overview">Enter Workspace ${icon('arrow')}</a>
+      <nav class="glass-pill-nav" aria-label="Main navigation">
+        <div class="nav-desktop">
+          <a class="nav-item" href="#method" data-scroll="method">How it works</a>
+          <a class="nav-item" href="#scenarios">Explore scenarios</a>
+        </div>
+        <a class="nav-item nav-primary" href="#overview">Enter Workspace <span class="nav-arrow" aria-hidden="true">→</span></a>
       </nav>
     </header>
     <main id="main">
       <section class="hero">
         <div class="hero-copy">
-          <div class="eyebrow">Institutional Treasury Sandbox</div>
-          <h1>Every rupee.<br>In its <span>right place.</span></h1>
-          <p>Cash when your customers need it. Yield when they don’t. Optimize liquidity with a clear, time-aware view of what comes next.</p>
+          <h1>Know what to keep liquid.<br>Know what <span>can earn.</span></h1>
+          <p>Reserve Juggler forecasts upcoming deposits, withdrawals, and settlements to calculate a risk-aware cash reserve—then identifies eligible surplus that can earn yield.</p>
           <div class="hero-actions">
             <a class="btn primary" href="#overview">Enter Workspace ${icon('arrow')}</a>
-            <a class="btn secondary" href="#method" data-scroll="method">See How It Works ${icon('down')}</a>
           </div>
-          <div class="hero-note">${icon('shield')} Synthetic data. Real SARIMAX forecasting. No money moves.</div>
         </div>
         <div class="reserve-scene" role="img" aria-label="Illustration: customer cash buffer and yield vault.">
           <div class="scene-grid"></div>
@@ -234,38 +254,124 @@ function landing() {
             <div class="card-amount">Ready.<small> When it matters.</small></div>
             <div class="card-foot"><span>LIQUIDITY FIRST. ALWAYS.</span>${icon('shield')}</div>
           </div>
-          <div class="scene-label yield-label">${icon('chart')} Surplus has a purpose.</div>
-          <div class="scene-label shield-label">${icon('shield')} A reserve, with a reason.</div>
-          <div class="scene-caption">One treasury. Two destinations. Perfect balance.</div>
+        </div>
+        <div class="hero-usp-ticker">
+          <div class="curved-loop-jacket" role="region" aria-label="Core Capabilities: Predict cash needs, protect payouts, invest eligible surplus">
+            <div class="curved-loop-fade-left" aria-hidden="true"></div>
+            <div class="curved-loop-fade-right" aria-hidden="true"></div>
+            <svg class="curved-loop-svg" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true">
+              <path id="hero-curve-path" d="M -400 35 L 2600 35" fill="none" />
+              <text class="curved-loop-text" style="font-size: 22px; font-weight: 700; letter-spacing: 0.12em;">
+                <textPath href="#hero-curve-path" startOffset="0%">
+                  <tspan fill="#10213A">PREDICT CASH NEEDS </tspan><tspan fill="#214F91" class="curved-loop-separator">₹ </tspan>
+                  <tspan fill="#10213A">PROTECT PAYOUTS </tspan><tspan fill="#214F91" class="curved-loop-separator">₹ </tspan>
+                  <tspan fill="#10213A">INVEST ELIGIBLE SURPLUS </tspan><tspan fill="#214F91" class="curved-loop-separator">₹ </tspan>
+                  <tspan fill="#10213A">PREDICT CASH NEEDS </tspan><tspan fill="#214F91" class="curved-loop-separator">₹ </tspan>
+                  <tspan fill="#10213A">PROTECT PAYOUTS </tspan><tspan fill="#214F91" class="curved-loop-separator">₹ </tspan>
+                  <tspan fill="#10213A">INVEST ELIGIBLE SURPLUS </tspan><tspan fill="#214F91" class="curved-loop-separator">₹ </tspan>
+                </textPath>
+              </text>
+            </svg>
+          </div>
         </div>
       </section>
       <section class="premise" aria-label="Problem assumptions">
-        <div><div class="eyebrow">Built around<br>the idle cash problem</div></div>
-        <div><strong>₹2 crore</strong><span>Illustrative hourly gross movement</span></div>
-        <div><strong>5.0%</strong><span>Assumed annual vault yield</span></div>
-        <div><strong>24h</strong><span>Default simulated lock period</span></div>
+        <div class="premise-container">
+          <div class="premise-grid">
+            <div class="premise-card">
+              <div class="premise-heading">TRANSACTION FLOW</div>
+              <strong class="premise-value">₹2 crore</strong>
+              <span class="premise-desc">Illustrative gross movement per hour</span>
+            </div>
+            <div class="premise-card">
+              <div class="premise-heading">VAULT YIELD</div>
+              <strong class="premise-value">5.0%</strong>
+              <span class="premise-desc">Assumed annual return</span>
+            </div>
+            <div class="premise-card">
+              <div class="premise-heading">LOCK PERIOD</div>
+              <strong class="premise-value">24h</strong>
+              <span class="premise-desc">Default simulated investment term</span>
+            </div>
+          </div>
+        </div>
       </section>
       <section class="method" id="method">
         <div class="method-head">
           <div><div class="eyebrow">From uncertainty to decision</div><h2>Keep enough.<br>Put the rest to work.</h2></div>
-          <p>One connected workflow turns hourly cashflows into an explainable reserve and a controlled sweep recommendation.</p>
+          <p class="method-head-desc">Turn hourly cash-flow forecasts into a time-aware reserve and an explainable sweep recommendation—keeping liquidity available for upcoming obligations while identifying surplus eligible to earn yield.</p>
         </div>
-        <div class="steps">
-          <article class="step">
-            <span class="step-no">01 / ANTICIPATE</span>
-            <h3>See the next wave.</h3>
-            <p>Forecast hourly net cashflows with the existing SARIMAX pipeline. See uncertainty alongside the expected path.</p>
-          </article>
-          <article class="step">
-            <span class="step-no">02 / PROTECT</span>
-            <h3>Give cash breathing room.</h3>
-            <p>Hold a reserve for the worst planned drawdown until the vault unlocks. Stress-test the decision before you act.</p>
-          </article>
-          <article class="step">
-            <span class="step-no">03 / ALLOCATE</span>
-            <h3>Make idle cash useful.</h3>
-            <p>Simulate a surplus sweep, track its maturity, and inspect every movement in the audit ledger.</p>
-          </article>
+        <div class="timeline-workflow" aria-label="Treasury workflow timeline">
+          <div class="timeline-spine" aria-hidden="true">
+            <div class="timeline-spine-track"></div>
+            <div class="timeline-spine-progress" style="height: 100%;"></div>
+          </div>
+          <div class="timeline-row timeline-row-left active is-revealed">
+            <div class="timeline-card-col">
+              <article class="timeline-card active card-revealed">
+                <div class="timeline-card-header">
+                  <span class="step-badge"><span class="step-badge-num">01</span><span class="step-badge-sep">/</span><span class="step-badge-name">ANTICIPATE</span></span>
+                  <span class="step-icon-bubble">${icon('chart')}</span>
+                </div>
+                <h3 class="timeline-card-title">See what's coming.</h3>
+                <p class="timeline-card-desc">Forecast hourly deposits and withdrawals, reveal expected cash-flow swings, and assess uncertainty over the next 72 hours.</p>
+                <div class="timeline-card-tags">
+                  <span class="timeline-tag">Hourly SARIMAX Forecast</span>
+                  <span class="timeline-tag">72h Horizon</span>
+                  <span class="timeline-tag">Confidence Bands</span>
+                </div>
+              </article>
+            </div>
+            <div class="timeline-marker-col">
+              <div class="timeline-connector timeline-connector-left" aria-hidden="true"></div>
+              <div class="timeline-marker active"><span class="marker-number">01</span></div>
+            </div>
+            <div class="timeline-empty-col" aria-hidden="true"></div>
+          </div>
+          <div class="timeline-row timeline-row-right is-revealed">
+            <div class="timeline-empty-col" aria-hidden="true"></div>
+            <div class="timeline-marker-col">
+              <div class="timeline-connector timeline-connector-right" aria-hidden="true"></div>
+              <div class="timeline-marker completed"><span class="marker-number">02</span></div>
+            </div>
+            <div class="timeline-card-col">
+              <article class="timeline-card completed card-revealed">
+                <div class="timeline-card-header">
+                  <span class="step-badge"><span class="step-badge-num">02</span><span class="step-badge-sep">/</span><span class="step-badge-name">PROTECT</span></span>
+                  <span class="step-icon-bubble">${icon('shield')}</span>
+                </div>
+                <h3 class="timeline-card-title">Reserve what matters.</h3>
+                <p class="timeline-card-desc">Account for upcoming payments, projected drawdowns, safety buffers, and vault lock periods before committing cash.</p>
+                <div class="timeline-card-tags">
+                  <span class="timeline-tag">Drawdown Protection</span>
+                  <span class="timeline-tag">Buffer Floor</span>
+                  <span class="timeline-tag">Lock Period Safety</span>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="timeline-row timeline-row-left is-revealed">
+            <div class="timeline-card-col">
+              <article class="timeline-card card-revealed">
+                <div class="timeline-card-header">
+                  <span class="step-badge"><span class="step-badge-num">03</span><span class="step-badge-sep">/</span><span class="step-badge-name">ALLOCATE</span></span>
+                  <span class="step-icon-bubble">${icon('vault')}</span>
+                </div>
+                <h3 class="timeline-card-title">Make surplus productive.</h3>
+                <p class="timeline-card-desc">Compare eligible investment terms, account for fees and maturity, and simulate sweeps with decisions recorded in an audit ledger.</p>
+                <div class="timeline-card-tags">
+                  <span class="timeline-tag">Yield Optimization</span>
+                  <span class="timeline-tag">Simulated Sweeps</span>
+                  <span class="timeline-tag">Audit Ledger</span>
+                </div>
+              </article>
+            </div>
+            <div class="timeline-marker-col">
+              <div class="timeline-connector timeline-connector-left" aria-hidden="true"></div>
+              <div class="timeline-marker upcoming"><span class="marker-number">03</span></div>
+            </div>
+            <div class="timeline-empty-col" aria-hidden="true"></div>
+          </div>
         </div>
       </section>
     </main>
@@ -306,22 +412,6 @@ function shell(page, content) {
           </div>
         `).join('')}
       </nav>
-      <div class="sidebar-bottom">
-        <div class="sandbox-card">
-          <div class="sandbox-header">
-            <strong>${iconInlineDot()} Local Sandbox</strong>
-            <span class="sandbox-pill">Active</span>
-          </div>
-          <p>Forecast-aware Indian treasury. All balances and operations are simulated.</p>
-        </div>
-        <div class="user">
-          <div class="avatar">TO</div>
-          <div class="user-meta">
-            <b>Treasury Operator</b>
-            <span>Institutional Terminal · INR</span>
-          </div>
-        </div>
-      </div>
     </aside>
     <div class="work-area">
       <header class="topbar">
@@ -332,10 +422,6 @@ function shell(page, content) {
           <span class="bc-current">${title}</span>
         </div>
         <div class="topbar-right">
-          <div class="topbar-status-pill">
-            <span class="pulse-indicator"></span>
-            <span>Simulated Engine</span>
-          </div>
           <span class="topbar-date">${state ? date(state.as_of, true) + ' IST' : 'Syncing state...'}</span>
           ${timer ? '<button class="btn secondary small" data-action="timer" aria-label="Pause continuous simulation">⏸ Pause 60s</button>' : '<button class="btn secondary small" data-action="advance" data-mutate title="Simulate 1 hour ahead">'+icon('play')+' Advance 1h</button>'}
           <button class="btn ghost small" data-action="refresh" aria-label="Refresh workspace" title="Refresh simulated state">${icon('refresh')}</button>

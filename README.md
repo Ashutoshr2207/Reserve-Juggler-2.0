@@ -30,7 +30,15 @@ The repository contains two applications:
 
 ## Quick start
 
-Use Python 3.12 for the verified environment. Node.js is needed only for the JavaScript syntax checks; the dashboard has no frontend build step.
+Use the prepared Python environment for the backend. The current React dashboard
+requires Node.js and a frontend build: run `npm ci` then `npm run build` inside
+`web/` before starting Python. The server serves that build from `web/dist`.
+
+The new **Ask Treasury Assistant** panel uses Groq and read-only session context.
+Set `GROQ_API_KEY` in the backend environment to enable answers. Missing
+configuration does not prevent the dashboard from running. See
+[Treasury Assistant setup and verification](TREASURY_ASSISTANT.md) for configuration,
+API limits, knowledge sources and known implementation discrepancies.
 
 ### Windows
 
