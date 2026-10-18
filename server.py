@@ -26,6 +26,7 @@ from liquidity_forecasting.auth import (
     AuthError,
     AuthManager,
 )
+from liquidity_forecasting.ml_shadow import capture_inputs, diagnostics
 from liquidity_forecasting.planning import analyze, moment, scheduled
 from liquidity_forecasting.treasury import (
     apply_action,
@@ -99,6 +100,13 @@ class Store:
 
 
 class Handler(BaseHTTPRequestHandler):
+    def add_shadow_diagnostics(self, result, shadow_inputs):
+        """Call only after authoritative state is captured/persisted and unlocked."""
+        provider = getattr(self.server, "shadow_provider", None)
+        if provider is not None:
+            result["ml_shadow"] = diagnostics(shadow_inputs, provider)
+        return result
+
     def send(self, status, body, content_type="application/json", filename=None):
         if isinstance(body, (dict, list)):
             body = json.dumps(body, allow_nan=False).encode()
@@ -316,9 +324,12 @@ class Handler(BaseHTTPRequestHandler):
 
                 with self.server.store.lock:
                     state = self.server.store.read(workspace_key)
-                    if path == "/api/state":
-                        return self.send(200, snapshot(state))
                     snap = snapshot(state)
+                    shadow_inputs = capture_inputs(state)
+                if path == "/api/state":
+                    self.add_shadow_diagnostics(snap, shadow_inputs)
+                    return self.send(200, snap)
+                if path == "/api/export":
                     records = [
                         {
                             **r,
@@ -554,8 +565,10 @@ class Handler(BaseHTTPRequestHandler):
                     )
                 updated = apply_action(state, path.removeprefix("/api/"), payload)
                 result = snapshot(updated)
+                shadow_inputs = capture_inputs(updated)
                 self.server.store.write(workspace_key, updated)
-                self.send(200, result)
+            self.add_shadow_diagnostics(result, shadow_inputs)
+            self.send(200, result)
         except AssistantError as error:
             self.send(error.status, {"error": str(error), "code": error.code})
         except (ValueError, TypeError, KeyError, OverflowError) as error:
@@ -567,7 +580,7 @@ class Handler(BaseHTTPRequestHandler):
             )
 
 
-def create_server(port=8000, database=None, auth_manager=None):
+def create_server(port=8000, database=None, auth_manager=None, shadow_provider=None):
     load_env_file()
     if database is None:
         (ROOT / ".runtime").mkdir(exist_ok=True)
@@ -575,6 +588,7 @@ def create_server(port=8000, database=None, auth_manager=None):
     server = ThreadingHTTPServer(("127.0.0.1", port), Handler)
     server.store = Store(database)
     server.auth_manager = auth_manager or AuthManager()
+    server.shadow_provider = shadow_provider
     return server
 
 

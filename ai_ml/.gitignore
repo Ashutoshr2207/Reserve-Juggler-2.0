@@ -23,6 +23,7 @@ artifacts/
 .ruff_cache/
 __pycache__/
 *.py[cod]
+*.egg-info/
 
 # Data directories (raw, interim, processed)
 data/raw/

@@ -8,7 +8,7 @@ from reserve_juggler_ml.integration.adapter import (
 
 
 def test_format_forecast_response_and_backend_adapter():
-    index = pd.date_range("2026-10-18 09:00:00", periods=72, freq="h")
+    index = pd.date_range("2026-10-18 09:00:00", periods=72, freq="h", tz="UTC")
 
     dep_mean = pd.Series([1000.0] * 72, index=index)
     dep_low = pd.Series([900.0] * 72, index=index)

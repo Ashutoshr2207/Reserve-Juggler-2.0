@@ -1,7 +1,11 @@
 # Backend/frontend ML integration gaps
 
-Audit: 18 October 2026. **Documentation and synthetic regression tests only;
-application behavior unchanged.** The proposed schemas and the full current API
+Original audit: 18 October 2026. **Historical audit and proposed operational gaps.**
+The subsequent [shadow integration](ai_ml/docs/SHADOW_INTEGRATION.md) adds strict
+ML interface validation and an optional `ml_shadow` snapshot diagnostic. It does
+not replace any financial forecast, planner or settlement behavior. The matrix
+below remains a list of operational deployment gaps, not completed features.
+The proposed schemas and the earlier API
 inventory are in [ML_INTEGRATION_CONTRACT.md](ML_INTEGRATION_CONTRACT.md).
 
 The application already has an INR 72-hour pipeline, independent gross forecast

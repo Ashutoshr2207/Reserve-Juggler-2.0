@@ -1,6 +1,7 @@
 """Unit tests for data loading and dataset verification."""
 
 import pytest
+import os
 from pathlib import Path
 from reserve_juggler_ml.data.loader import (
     audit_committee_dataset,
@@ -10,12 +11,20 @@ from reserve_juggler_ml.data.loader import (
 )
 
 
+@pytest.mark.skipif(
+    os.environ.get("RJ_ML_PRIVATE_DATA_AUDIT") != "true",
+    reason="Private dataset audit is opt-in; integration tests use synthetic fixtures.",
+)
 def test_get_dataset_path_verifies_existence():
     path = get_dataset_path()
     assert path.is_file()
     assert path.name == "treasury_4tier_dataset.csv"
 
 
+@pytest.mark.skipif(
+    os.environ.get("RJ_ML_PRIVATE_DATA_AUDIT") != "true",
+    reason="Full-year private dataset includes the reserved partition; not read in integration validation.",
+)
 def test_committee_dataset_audit():
     audit = audit_committee_dataset()
     assert audit["file_size_bytes"] == 1067472
