@@ -7,3 +7,6 @@ __pycache__/
 .pytest_cache/
 output.xlsx
 .DS_Store
+.env
+.env.*
+!.env.example

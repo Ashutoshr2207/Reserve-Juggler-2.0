@@ -6,3 +6,5 @@ streamlit
 xlsxwriter
 scipy
 openpyxl
+pymongo
+argon2-cffi
