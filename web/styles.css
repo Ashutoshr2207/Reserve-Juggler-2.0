@@ -20,9 +20,22 @@
   --black: #000000;
   --black-subtle: #020617;
   --white: #FFFFFF;
+  --text-white: #FFFFFF;
   --off-white: #F8FAFC;
   --surface: #FFFFFF;
   --surface-alt: #F1F5F9;
+
+  /* Semantic Tokens */
+  --bg-page: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-alt: #F1F5F9;
+  --bg-card: #FFFFFF;
+  --text-primary: #0A192F;
+  --text-secondary: #64748B;
+  --text-muted: #64748B;
+  --text-on-primary: #FFFFFF;
+  --border-default: #E2E8F0;
+  --border-subtle: #F1F5F9;
 
   /* Navy Blue Theme System */
   --blue: #18478d;
@@ -92,10 +105,23 @@
   /* Surfaces */
   --black: #000000;
   --black-subtle: #040913;
-  --white: #111C2E;
+  --white: #FFFFFF;
+  --text-white: #FFFFFF;
   --off-white: #0B1220;
   --surface: #111C2E;
   --surface-alt: #18263B;
+
+  /* Semantic Tokens */
+  --bg-page: #0B1220;
+  --bg-surface: #111C2E;
+  --bg-surface-alt: #18263B;
+  --bg-card: #111C2E;
+  --text-primary: #F1F5FB;
+  --text-secondary: #94A3B8;
+  --text-muted: #94A3B8;
+  --text-on-primary: #FFFFFF;
+  --border-default: #24344D;
+  --border-subtle: #19273D;
 
   /* Navy Blue Theme System */
   --blue: #3B82F6;
@@ -316,7 +342,7 @@ svg {
 }
 
 .btn.secondary {
-  background: var(--white);
+  background: var(--surface);
   color: var(--navy);
   border: 1px solid var(--line);
   font-weight: 600;
@@ -324,8 +350,8 @@ svg {
 
 .btn.secondary:hover:not(:disabled) {
   background: var(--surface-alt);
-  border-color: #CBD5E1;
-  color: var(--black);
+  border-color: var(--line-dark);
+  color: var(--ink);
 }
 
 .btn.ghost {
@@ -348,7 +374,7 @@ svg {
 
 .btn.danger {
   color: var(--red);
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--red-border);
 }
 
@@ -795,7 +821,7 @@ svg {
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
-  background: var(--white);
+  background: var(--surface);
   border-bottom: 1px solid var(--line);
   position: sticky;
   top: 0;
@@ -957,7 +983,7 @@ svg {
 .metrics {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
@@ -1054,7 +1080,7 @@ svg {
 }
 
 .panel {
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
@@ -1091,8 +1117,8 @@ svg {
    Decision Panel (Sleek Navy Command Card)
    ========================================================================== */
 .decision {
-  background: var(--navy);
-  color: var(--white);
+  background: var(--navy-900);
+  color: #FFFFFF;
   border: 1px solid var(--navy-850);
   box-shadow: var(--shadow-navy);
   display: flex;
@@ -1115,7 +1141,7 @@ svg {
   font-size: 38px;
   font-weight: 800;
   letter-spacing: -0.04em;
-  color: var(--white);
+  color: #FFFFFF;
   margin: 16px 0 8px;
   font-variant-numeric: tabular-nums;
 }
@@ -1144,14 +1170,14 @@ svg {
 }
 
 .decision-breakdown strong {
-  color: var(--white);
+  color: #FFFFFF;
   font-weight: 600;
 }
 
 .decision .btn {
   width: 100%;
   background: var(--blue);
-  color: var(--white);
+  color: #FFFFFF;
   border: 1px solid var(--blue-border);
   font-weight: 700;
   min-height: 44px;
@@ -1361,7 +1387,7 @@ svg {
 }
 
 .segmented button.selected {
-  background: var(--white);
+  background: var(--surface);
   color: var(--navy);
   box-shadow: var(--shadow-sm);
 }
@@ -1598,7 +1624,7 @@ tbody tr:hover {
   border-radius: var(--radius-sm);
   padding: 8px 12px;
   font-size: 12px;
-  background: var(--white);
+  background: var(--surface);
   color: var(--ink);
 }
 
@@ -1655,7 +1681,7 @@ tbody tr:hover {
   border-radius: var(--radius-sm);
   padding: 10px 14px;
   color: var(--ink);
-  background: var(--white);
+  background: var(--surface);
   width: 100%;
   font-size: 13px;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
@@ -1697,7 +1723,7 @@ tbody tr:hover {
 }
 
 .explainer {
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 24px;
@@ -1748,7 +1774,7 @@ tbody tr:hover {
 }
 
 .scenario-metrics>div {
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--line);
   padding: 18px 20px;
   border-radius: var(--radius-sm);
@@ -1862,7 +1888,7 @@ tbody tr:hover {
    ========================================================================== */
 dialog {
   width: min(500px, calc(100% - 32px));
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   padding: 30px;
@@ -2323,7 +2349,7 @@ dialog .dialog-actions {
 .buffer-card {
   top: 215px;
   left: calc(50% - 90px);
-  background: var(--white);
+  background: var(--surface);
   color: var(--navy);
   border: 1px solid var(--line);
   transform: rotateX(15deg) rotateY(-10deg) rotateZ(-3deg);
@@ -2402,7 +2428,7 @@ dialog .dialog-actions {
 }
 
 .premise-card {
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 30px 32px;
@@ -2648,7 +2674,7 @@ dialog .dialog-actions {
 .timeline-card {
   width: 100%;
   max-width: 470px;
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 30px 32px;
@@ -2916,7 +2942,7 @@ dialog .dialog-actions {
   justify-content: space-between;
   font-size: 11.5px;
   color: var(--muted);
-  background: var(--white);
+  background: var(--surface);
   box-sizing: border-box;
 }
 

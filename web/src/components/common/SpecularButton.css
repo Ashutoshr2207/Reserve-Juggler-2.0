@@ -1,10 +1,14 @@
+/* ==========================================================================
+   SpecularButton Component — Hardware-Accelerated Glass Specular Button
+   Zero-Crash Architecture: Uses CSS hardware-accelerated shaders without
+   allocating WebGL contexts, eliminating browser context-limit crashes.
+   ========================================================================== */
+
 .specular-button {
-  --sb-radius: 18px;
-  --sb-tint: #ffffff;
-  --sb-tint-opacity: 0.04;
-  --sb-blur: 8px;
-  --sb-text-color: #f5f5f5;
-  --sb-base-bg: #0A192F;
+  --sb-radius: 14px;
+  --sb-shine-x: 50%;
+  --sb-shine-y: 50%;
+  --sb-shine-opacity: 0;
 
   position: relative;
   isolation: isolate;
@@ -13,36 +17,43 @@
   justify-content: center;
   gap: 0.5em;
   margin: 0;
-  border: 0;
   border-radius: var(--sb-radius);
   font: inherit;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.25;
   letter-spacing: 0.01em;
-  color: var(--sb-text-color);
-  background: color-mix(in srgb, var(--sb-tint) calc(var(--sb-tint-opacity) * 100%), var(--sb-base-bg));
-  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  -webkit-backdrop-filter: blur(var(--sb-blur));
-  backdrop-filter: blur(var(--sb-blur));
+  text-decoration: none;
   cursor: pointer;
   outline: none;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease, opacity 0.2s ease;
-  overflow: visible;
-  text-decoration: none;
+  box-sizing: border-box;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  transition:
+    transform 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+
+  /* Default (Primary) Theme Defaults */
+  background: linear-gradient(135deg, #18478d 0%, #153a70 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 14px -2px rgba(24, 71, 141, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .specular-button:hover {
-  box-shadow: 0 12px 28px -8px rgba(24, 71, 141, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px -2px rgba(24, 71, 141, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
 .specular-button:active {
-  transform: scale(0.97);
+  transform: translateY(0) scale(0.98);
 }
 
 .specular-button:focus-visible {
-  outline: 2px solid #3B82F6;
+  outline: 2px solid #3b82f6;
   outline-offset: 3px;
 }
 
@@ -51,65 +62,208 @@
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
-}
-
-.specular-button:disabled:active {
   transform: none;
+  box-shadow: none;
 }
 
-/* Sizing variations */
-.specular-button--sm {
-  padding: 8px 16px;
-  font-size: 0.8125rem;
-  min-height: 32px;
-}
-
-.specular-button--md {
-  padding: 10px 22px;
-  font-size: 0.9375rem;
-  min-height: 40px;
-}
-
-.specular-button--lg {
-  padding: 14px 32px;
-  font-size: 1.0625rem;
-  min-height: 48px;
-}
-
-/* Variant color modifiers */
-.specular-button--primary {
-  --sb-base-bg: #18478D;
-  --sb-text-color: #ffffff;
-}
-
-.specular-button--secondary {
-  --sb-base-bg: #0F172A;
-  --sb-text-color: #F1F5FB;
-}
-
-.specular-button--danger {
-  --sb-base-bg: #0A192F;
-  --sb-text-color: #93C5FD;
-}
-
-/* Canvas light layer */
-.specular-button__light {
+/* ==========================================================================
+   Specular Border Highlight (Tracks Cursor or Sweeps)
+   ========================================================================== */
+.specular-button::before {
+  content: '';
   position: absolute;
-  inset: -24px;
-  z-index: 1;
-  display: block;
-  width: calc(100% + 48px);
-  height: calc(100% + 48px);
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: radial-gradient(
+    140px circle at var(--sb-shine-x, 50%) var(--sb-shine-y, 50%),
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.35) 45%,
+    transparent 75%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
   pointer-events: none;
+  opacity: var(--sb-shine-opacity, 0);
+  transition: opacity 0.25s ease;
+  z-index: 2;
+}
+
+/* Specular Glass Surface Glow */
+.specular-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    180px circle at var(--sb-shine-x, 50%) var(--sb-shine-y, 50%),
+    rgba(255, 255, 255, 0.16) 0%,
+    transparent 65%
+  );
+  pointer-events: none;
+  opacity: var(--sb-shine-opacity, 0);
+  transition: opacity 0.25s ease;
+  z-index: 1;
+}
+
+.specular-button:hover::before,
+.specular-button:hover::after,
+.specular-button:focus-visible::before,
+.specular-button:focus-visible::after {
+  --sb-shine-opacity: 1;
 }
 
 /* Content label */
 .specular-button__label {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5em;
   width: 100%;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Sizing Variations
+   ========================================================================== */
+.specular-button--sm {
+  padding: 7px 14px;
+  font-size: 0.8125rem;
+  min-height: 34px;
+  --sb-radius: 10px;
+}
+
+.specular-button--md {
+  padding: 10px 22px;
+  font-size: 0.9375rem;
+  min-height: 42px;
+  --sb-radius: 14px;
+}
+
+.specular-button--lg {
+  padding: 14px 30px;
+  font-size: 1.0625rem;
+  min-height: 48px;
+  --sb-radius: 18px;
+}
+
+/* ==========================================================================
+   Variants (Light Mode Default)
+   ========================================================================== */
+.specular-button--primary {
+  background: linear-gradient(135deg, #18478d 0%, #153a70 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 4px 14px -2px rgba(24, 71, 141, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.specular-button--primary:hover {
+  background: linear-gradient(135deg, #1d54a6 0%, #18478d 100%);
+  box-shadow: 0 6px 20px -2px rgba(24, 71, 141, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.specular-button--secondary {
+  background: #ffffff;
+  color: #1e293b;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), inset 0 1px 0 #ffffff;
+}
+
+.specular-button--secondary:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+  color: #0f172a;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12), inset 0 1px 0 #ffffff;
+}
+
+.specular-button--secondary::before {
+  background: radial-gradient(
+    140px circle at var(--sb-shine-x, 50%) var(--sb-shine-y, 50%),
+    rgba(37, 99, 235, 0.8) 0%,
+    rgba(37, 99, 235, 0.2) 40%,
+    transparent 75%
+  );
+}
+
+.specular-button--secondary::after {
+  background: radial-gradient(
+    180px circle at var(--sb-shine-x, 50%) var(--sb-shine-y, 50%),
+    rgba(37, 99, 235, 0.08) 0%,
+    transparent 65%
+  );
+}
+
+.specular-button--danger {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 14px -2px rgba(220, 38, 38, 0.4);
+}
+
+.specular-button--danger:hover {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.specular-button--ghost {
+  background: transparent;
+  color: #475569;
+  border: 1px solid transparent;
+  box-shadow: none;
+}
+
+.specular-button--ghost:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #0f172a;
+}
+
+/* ==========================================================================
+   Dark Mode Overrides
+   ========================================================================== */
+[data-theme="dark"] .specular-button,
+[data-theme="dark"] .specular-button--primary {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 16px -2px rgba(37, 99, 235, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+[data-theme="dark"] .specular-button:hover,
+[data-theme="dark"] .specular-button--primary:hover {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  box-shadow: 0 6px 22px -2px rgba(37, 99, 235, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="dark"] .specular-button--secondary {
+  background: #1e293b;
+  color: #f1f5f9;
+  border: 1px solid #334155;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .specular-button--secondary:hover {
+  background: #334155;
+  border-color: #475569;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="dark"] .specular-button--secondary::before {
+  background: radial-gradient(
+    140px circle at var(--sb-shine-x, 50%) var(--sb-shine-y, 50%),
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.25) 45%,
+    transparent 75%
+  );
+}
+
+[data-theme="dark"] .specular-button--ghost {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .specular-button--ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
 }

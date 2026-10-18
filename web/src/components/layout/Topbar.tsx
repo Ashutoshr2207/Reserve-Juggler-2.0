@@ -60,20 +60,8 @@ export const Topbar: React.FC<TopbarProps> = ({
         {timerActive ? (
           <SpecularButton
             size="sm"
+            variant="secondary"
             radius={18}
-            tint="#ffffff"
-            tintOpacity={0.04}
-            textColor="#f5f5f5"
-            lineColor="#ffffff"
-            baseColor="#525252"
-            intensity={1}
-            idleIntensity={0.35}
-            shineSize={10}
-            shineFade={34}
-            thickness={1.2}
-            glow={1}
-            followMouse
-            proximity={250}
             aria-label="Pause continuous simulation"
             onClick={onToggleTimer}
           >
@@ -82,20 +70,8 @@ export const Topbar: React.FC<TopbarProps> = ({
         ) : (
           <SpecularButton
             size="sm"
+            variant="secondary"
             radius={18}
-            tint="#ffffff"
-            tintOpacity={0.04}
-            textColor="#f5f5f5"
-            lineColor="#ffffff"
-            baseColor="#525252"
-            intensity={1}
-            idleIntensity={0.35}
-            shineSize={10}
-            shineFade={34}
-            thickness={1.2}
-            glow={1}
-            followMouse
-            proximity={250}
             title="Simulate 1 hour ahead"
             onClick={onAdvance}
             disabled={busy}

@@ -624,6 +624,31 @@ dialog#dialog .dialog-amount { font-size: 32px; font-weight: 600; color: #18273b
   color: #F1F5FB;
 }
 
+[data-theme="dark"] dialog#dialog select,
+[data-theme="dark"] dialog#dialog input {
+  background: #0B1220;
+  border-color: #24344D;
+  color: #F1F5FB;
+}
+
+[data-theme="dark"] dialog#dialog select:focus,
+[data-theme="dark"] dialog#dialog input:focus {
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+[data-theme="dark"] dialog#dialog .btn.secondary {
+  background: #18263B;
+  color: #F1F5FB;
+  border-color: #24344D;
+}
+
+[data-theme="dark"] dialog#dialog .btn.secondary:hover {
+  background: #20334E;
+  border-color: #3B82F6;
+  color: #FFFFFF;
+}
+
 [data-theme="dark"] dialog::backdrop {
   background: rgba(4, 8, 18, 0.78);
   -webkit-backdrop-filter: blur(4px);

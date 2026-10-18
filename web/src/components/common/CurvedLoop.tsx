@@ -34,8 +34,8 @@ export const CurvedLoop: React.FC<CurvedLoopProps> = ({
   separator = '₹',
   outline = false,
   edgeFade = true,
-  separatorColor = '#214F91',
-  color = '#10213A',
+  separatorColor = 'var(--blue)',
+  color = 'var(--ink)',
   className = '',
   style
 }) => {
