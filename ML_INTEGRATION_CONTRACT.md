@@ -1,6 +1,13 @@
 # Reserve Juggler: proposed ML integration contract
 
-Status: **proposal for agreement; not implemented**. Audit date: 18 October 2026.
+Status: **historical operational proposal; operational replacement not implemented**.
+Audit date: 18 October 2026. A limited, disabled-by-default shadow boundary is now
+implemented; [SHADOW_INTEGRATION.md](ai_ml/docs/SHADOW_INTEGRATION.md) is the current
+contract for that path and records the architecture, safety gates and validation.
+The inventory and line references below describe the earlier audit (including
+the older JavaScript frontend); the active frontend is React and authentication
+uses MongoDB users with SQLite workspaces. The detailed operational proposal
+below is not an implemented activation contract.
 Scope: the INR hourly application (`server.py`, `web/`), not the separate daily,
 multi-currency application (`app.py`, `main.py`). The README is the requirements
 reference; sections 1–4 below describe actual code. Sections 5–10 specify proposed

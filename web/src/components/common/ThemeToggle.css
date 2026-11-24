@@ -1,0 +1,85 @@
+/* Theme Toggle Control */
+.theme-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 58px;
+  height: 28px;
+  padding: 2px;
+  background: rgba(226, 232, 240, 0.85);
+  border: 1px solid rgba(20, 35, 55, 0.14);
+  border-radius: 9999px;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+  user-select: none;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+[data-theme="dark"] .theme-toggle {
+  background: rgba(20, 34, 54, 0.95);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.theme-toggle:focus-visible {
+  box-shadow: 0 0 0 2px var(--blue-focus, #2b5390);
+}
+
+.theme-toggle-option {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 22px;
+  border-radius: 9999px;
+  color: #64748B;
+  transition: color 0.18s ease, transform 0.18s ease;
+}
+
+.theme-toggle-option svg {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+/* Light mode active pill */
+.theme-toggle.light .theme-toggle-option.light {
+  color: #173864;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(16, 33, 58, 0.15), 0 1px 2px rgba(16, 33, 58, 0.08);
+}
+
+.theme-toggle.light .theme-toggle-option.dark {
+  color: #8A9BB0;
+}
+
+/* Dark mode active pill */
+.theme-toggle.dark .theme-toggle-option.dark {
+  color: #82AAFF;
+  background: #1C3352;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+}
+
+.theme-toggle.dark .theme-toggle-option.light {
+  color: #637792;
+}
+
+.theme-toggle-option:hover {
+  transform: scale(1.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle,
+  .theme-toggle-option {
+    transition: none !important;
+    transform: none !important;
+  }
+}

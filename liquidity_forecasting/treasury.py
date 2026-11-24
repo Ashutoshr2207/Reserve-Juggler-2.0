@@ -249,7 +249,14 @@ def reserve_plan(cash, rows, policy):
     }
 
 
-def snapshot(state):
+def snapshot(state, *, shadow_provider=None):
+    """Build legacy financial output; direct shadow callers must own no store lock.
+
+    HTTP handlers call this without a provider under the transaction lock, then
+    attach optional diagnostics to the captured response after releasing it.
+    """
+    from liquidity_forecasting.ml_shadow import diagnostics
+
     rows, model, converged, mae = forecast(state)
     policy = state["policy"]
     plan = reserve_plan(state["cash"], rows, policy)
@@ -305,6 +312,7 @@ def snapshot(state):
         ),
         "mode": "simulation",
         "intelligence": analyze(state),
+        "ml_shadow": diagnostics(state, shadow_provider),
     }
 
 

@@ -1,0 +1,82 @@
+/* ==========================================================================
+   CurvedLoop Component — Continuous Animated USP Loop
+   ========================================================================== */
+.curved-loop-jacket {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Compact layout: override default min-height: 100vh */
+  min-height: auto;
+  height: 60px;
+  background: transparent;
+  user-select: none;
+  pointer-events: none;
+}
+
+.curved-loop-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+}
+
+.curved-loop-text {
+  font-family: inherit;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  dominant-baseline: central;
+}
+
+.curved-loop-separator {
+  opacity: 0.95;
+  font-weight: 700;
+  font-size: 0.9em;
+}
+
+/* Subtle edge fade overlays for luxurious appearance */
+.curved-loop-fade-left,
+.curved-loop-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 90px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.curved-loop-fade-left {
+  left: 0;
+  background: linear-gradient(to right, var(--off-white), transparent);
+}
+
+.curved-loop-fade-right {
+  right: 0;
+  background: linear-gradient(to left, var(--off-white), transparent);
+}
+
+@media (max-width: 768px) {
+  .curved-loop-jacket {
+    height: 56px;
+  }
+  .curved-loop-fade-left,
+  .curved-loop-fade-right {
+    width: 44px;
+  }
+  .curved-loop-text {
+    letter-spacing: 0.09em;
+  }
+}
+
+@media (max-width: 520px) {
+  .curved-loop-jacket {
+    height: 48px;
+  }
+  .curved-loop-fade-left,
+  .curved-loop-fade-right {
+    width: 28px;
+  }
+}
